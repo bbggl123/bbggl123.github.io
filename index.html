@@ -1,0 +1,3584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>供应商结算对账系统 · 共创会后汇报材料</title>
+<meta name="creative-medium" content="visual-report">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ============================================
+   Kami Design System — 供应商结算对账系统汇报材料
+   暖色羊皮纸画布 · 墨蓝单点缀 · 衬线字体承载层级
+   ============================================ */
+:root {
+  --canvas:   #f5f4ed;
+  --ink:      #1B365D;
+  --ink-mid:  #2c4a7a;
+  --ink-soft: #4a6fa5;
+  --muted:    #8a7f6e;
+  --muted-light: #c8c0b0;
+  --border:   #d4cfc4;
+  --white:    #ffffff;
+  --paper-line: #e8e2d4;
+  --accent-soft: rgba(27, 54, 93, 0.08);
+  --accent-line: rgba(27, 54, 93, 0.15);
+  --status-green: #4a7c59;
+  --status-amber: #c4952a;
+  --status-red: #b84a3f;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: 'Noto Sans SC', 'Source Serif 4', serif;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'tnum';
+}
+
+/* 羊皮纸纹理 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(138, 127, 110, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(27, 54, 93, 0.04) 0%, transparent 50%);
+}
+
+.report-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+/* =============== 目录导航 =============== */
+.toc-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(245, 244, 237, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 60px;
+}
+
+.toc-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.toc-inner::-webkit-scrollbar { display: none; }
+
+.toc-item {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 14px 18px 14px 0;
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.toc-item:hover { color: var(--ink); }
+
+.toc-item .toc-num {
+  font-family: 'Source Serif 4', serif;
+  color: var(--ink-soft);
+  margin-right: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+body { padding-top: 48px; }
+
+/* =============== 封面 =============== */
+.cover {
+  min-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.cover-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cover-meta .left span { display: block; margin-bottom: 4px; }
+.cover-meta .right { text-align: right; }
+.cover-meta .right span { display: block; margin-bottom: 4px; }
+
+.cover-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.cover-eyebrow {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.15em;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cover-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--ink-soft);
+}
+
+.cover-title {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+}
+
+.cover-subtitle {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink-mid);
+  line-height: 1.4;
+  margin-bottom: 40px;
+  max-width: 680px;
+}
+
+.cover-divider {
+  width: 80px;
+  height: 2px;
+  background: var(--ink);
+  margin-bottom: 40px;
+}
+
+.cover-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 860px;
+}
+
+.cover-summary .item {
+  border-left: 2px solid var(--border);
+  padding-left: 16px;
+}
+
+.cover-summary .item .num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cover-summary .item .label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+}
+
+.cover-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cover-footer .reporter {
+  text-align: right;
+}
+.cover-footer .reporter .name {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+/* =============== 通用章节 =============== */
+.section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  scroll-margin-top: 60px;
+}
+
+.section:last-child { border-bottom: none; }
+
+.section-header {
+  margin-bottom: 48px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.section-num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  padding-top: 8px;
+}
+
+.section-title-block h2 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.section-title-block .lede {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 720px;
+}
+
+/* 两列内容区 */
+.two-col {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 40px;
+}
+
+.col-body { min-width: 0; }
+
+/* =============== 子标题 =============== */
+.sub-section-title {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 20px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sub-section-title:first-child { margin-top: 0; }
+
+.sub-section-title::before {
+  content: '';
+  width: 3px;
+  height: 18px;
+  background: var(--ink);
+}
+
+/* =============== 核心结论卡片组 =============== */
+.conclusion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.conclusion-card {
+  background: var(--white);
+  padding: 28px 24px 24px;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.conclusion-card:hover {
+  background: #faf8f2;
+}
+
+.conclusion-card .card-tag {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.conclusion-card h3 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.conclusion-card p {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* =============== 业务痛点列表 =============== */
+.pain-list {
+  list-style: none;
+}
+
+.pain-list li {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.pain-list li:last-child { border-bottom: none; }
+
+.pain-list .p-index {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+
+.pain-list .p-content h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.pain-list .p-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+
+.pain-list .p-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13.5px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.pain-list .p-impact {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  padding-left: 14px;
+  border-left: 2px solid var(--paper-line);
+}
+
+.pain-list .p-impact strong {
+  color: var(--ink-mid);
+  font-weight: 500;
+}
+
+/* 关键事实数字区 */
+.fact-banner {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 28px 32px;
+  margin-top: 32px;
+}
+
+.fact-banner .fb-title {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.fact-banner .fb-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.fact-banner .fb-item .fb-num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fact-banner .fb-item .fb-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* =============== 优先级分层 =============== */
+.priority-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.priority-tier {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 28px;
+  padding: 28px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.priority-tier .tier-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-top: 2px;
+}
+
+.priority-tier.p0 .tier-label { color: var(--ink); }
+.priority-tier.p1 .tier-label { color: var(--ink-mid); }
+.priority-tier.p2 .tier-label { color: var(--muted); }
+
+.priority-tier .tier-content h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.priority-tier .tier-content ul {
+  list-style: none;
+}
+
+.priority-tier .tier-content li {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13.5px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  padding: 5px 0 5px 18px;
+  position: relative;
+}
+
+.priority-tier .tier-content li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  background: var(--ink-soft);
+  border-radius: 50%;
+}
+
+.priority-tier.p0 { border-left: 3px solid var(--ink); }
+.priority-tier.p1 { border-left: 3px solid var(--ink-mid); }
+.priority-tier.p2 { border-left: 3px solid var(--muted-light); }
+
+/* 硬约束区 */
+.hard-constraints {
+  margin-top: 36px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 28px 32px;
+}
+
+.hard-constraints h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hard-constraints h4::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: var(--ink);
+}
+
+.constraint-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+  list-style: none;
+  counter-reset: constraint;
+}
+
+.constraint-list li {
+  counter-increment: constraint;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: flex-start;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--paper-line);
+}
+
+.constraint-list li::before {
+  content: counter(constraint, decimal-leading-zero);
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  padding-top: 1px;
+}
+
+.constraint-list li:last-child,
+.constraint-list li:nth-last-child(2):nth-child(odd) {
+  border-bottom: none;
+}
+
+/* =============== Mermaid 图容器 =============== */
+.mermaid-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 32px 28px;
+  margin-bottom: 28px;
+}
+
+.mermaid-title {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mermaid-title::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: var(--ink);
+}
+
+.mermaid-subtitle {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 13px;
+  margin-bottom: 24px;
+}
+
+.mermaid-img-wrap {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.mermaid-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 图旁说明文字 */
+.figure-notes {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.figure-note {
+  padding: 14px 16px;
+  background: var(--canvas);
+  border: 1px solid var(--paper-line);
+  border-radius: 2px;
+}
+
+.figure-note h5 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.figure-note p {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* 状态颜色图例 */
+.legend-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.green { background: var(--status-green); }
+.legend-dot.amber { background: var(--status-amber); }
+.legend-dot.red { background: var(--status-red); }
+
+/* =============== 模块详述卡片 =============== */
+.module-detail {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 28px;
+  margin-bottom: 16px;
+}
+
+.module-detail .md-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.module-detail .md-title {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.module-detail .md-files {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  letter-spacing: 0.01em;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-pill.green {
+  background: rgba(74, 124, 89, 0.1);
+  color: var(--status-green);
+}
+
+.status-pill.amber {
+  background: rgba(196, 149, 42, 0.12);
+  color: var(--status-amber);
+}
+
+.status-pill.red {
+  background: rgba(184, 74, 63, 0.1);
+  color: var(--status-red);
+}
+
+.status-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-pill.green .dot { background: var(--status-green); }
+.status-pill.amber .dot { background: var(--status-amber); }
+.status-pill.red .dot { background: var(--status-red); }
+
+.module-detail .md-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.md-col h5 {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.md-col ul {
+  list-style: none;
+}
+
+.md-col li {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  padding: 4px 0 4px 14px;
+  position: relative;
+}
+
+.md-col li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink-soft);
+}
+
+.md-col.gap li::before { background: var(--status-red); opacity: 0.7; }
+.md-col.done li::before { background: var(--status-green); opacity: 0.8; }
+
+/* =============== 暂缓模块表 =============== */
+.deferred-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.deferred-table th,
+.deferred-table td {
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--paper-line);
+  vertical-align: top;
+}
+
+.deferred-table th {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--border);
+}
+
+.deferred-table tr:last-child td { border-bottom: none; }
+.deferred-table tr:hover td { background: #faf8f2; }
+
+/* =============== 技术风险 =============== */
+.risk-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 24px 28px;
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: 60px 1fr 100px;
+  gap: 20px;
+  align-items: flex-start;
+  transition: border-color 0.2s ease;
+}
+
+.risk-card:hover {
+  border-color: var(--ink-soft);
+}
+
+.risk-card .rc-num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+
+.risk-card .rc-body h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.risk-card .rc-loc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+
+.risk-card .rc-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.risk-card .rc-fix {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+  padding-left: 12px;
+  border-left: 2px solid var(--paper-line);
+}
+
+.risk-card .rc-fix strong {
+  color: var(--ink-mid);
+  font-weight: 500;
+}
+
+.risk-card .rc-severity {
+  text-align: right;
+  padding-top: 2px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.badge-critical { background: rgba(27, 54, 93, 0.1); color: var(--ink); }
+.badge-high { background: rgba(184, 74, 63, 0.1); color: var(--status-red); }
+.badge-mid  { background: rgba(196, 149, 42, 0.12); color: var(--status-amber); }
+.badge-low  { background: rgba(138, 127, 110, 0.15); color: var(--muted); }
+
+/* 次要风险区 */
+.minor-risks {
+  background: var(--canvas);
+  border: 1px dashed var(--border);
+  border-radius: 2px;
+  padding: 24px 28px;
+  margin-top: 16px;
+}
+
+.minor-risks h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.minor-risks ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+
+.minor-risks li {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  padding: 4px 0 4px 14px;
+  position: relative;
+}
+
+.minor-risks li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 5px;
+  height: 5px;
+  background: var(--muted-light);
+}
+
+/* =============== 质量门控 =============== */
+.quality-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.quality-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 24px;
+}
+
+.quality-card h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.quality-card .qc-subtitle {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.quality-card .qc-big {
+  font-family: 'Source Serif 4', serif;
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.quality-card .qc-big-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--paper-line);
+}
+
+.metric-row:last-child { border-bottom: none; }
+
+.metric-row .m-label {
+  flex: 1;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-mid);
+}
+
+.metric-row .m-value {
+  font-family: 'Source Serif 4', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-right: 12px;
+  min-width: 48px;
+  text-align: right;
+}
+
+.metric-row .m-bar {
+  width: 60px;
+  height: 4px;
+  background: var(--paper-line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.metric-row .m-bar-fill {
+  height: 100%;
+  background: var(--ink);
+}
+
+/* SLO 定义 */
+.slo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.slo-item {
+  padding: 16px;
+  background: var(--canvas);
+  border: 1px solid var(--paper-line);
+  border-radius: 2px;
+  text-align: center;
+}
+
+.slo-item .slo-name {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.slo-item .slo-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* =============== 推进计划 =============== */
+.phase-timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.phase-timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+}
+
+.phase-item {
+  position: relative;
+  padding-bottom: 36px;
+}
+
+.phase-item:last-child { padding-bottom: 0; }
+
+.phase-item::before {
+  content: '';
+  position: absolute;
+  left: -26px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--ink);
+  z-index: 1;
+}
+
+.phase-item.completed::before {
+  background: var(--ink);
+}
+
+.phase-item.current::before {
+  background: var(--white);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.phase-item.future::before {
+  border-color: var(--muted-light);
+  background: var(--white);
+}
+
+.phase-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.phase-header .p-name {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.phase-header .p-meta {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.phase-header .p-status {
+  margin-left: auto;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.phase-header .p-status.done {
+  background: rgba(74, 124, 89, 0.1);
+  color: var(--status-green);
+}
+
+.phase-header .p-status.pending {
+  background: rgba(196, 149, 42, 0.12);
+  color: var(--status-amber);
+}
+
+.phase-header .p-status.future {
+  background: rgba(138, 127, 110, 0.12);
+  color: var(--muted);
+}
+
+.phase-body {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 24px 28px;
+}
+
+.phase-milestone {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  color: var(--ink-mid);
+  font-weight: 500;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.phase-milestone::before {
+  content: '里程碑 ·';
+  color: var(--ink-soft);
+  margin-right: 6px;
+  font-weight: 400;
+}
+
+.phase-sub {
+  margin-top: 14px;
+}
+
+.phase-sub h5 {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  margin-top: 14px;
+}
+
+.phase-sub ul {
+  list-style: none;
+}
+
+.phase-sub li {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  padding: 4px 0 4px 16px;
+  position: relative;
+}
+
+.phase-sub li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 5px;
+  height: 5px;
+  background: var(--ink-soft);
+  border-radius: 50%;
+}
+
+.phase-dep {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--paper-line);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.phase-dep strong {
+  color: var(--status-amber);
+  font-weight: 500;
+}
+
+/* =============== 待办事项表 =============== */
+.todo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.todo-table th,
+.todo-table td {
+  text-align: left;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--paper-line);
+  vertical-align: top;
+}
+
+.todo-table th {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--border);
+}
+
+.todo-table tr:last-child td { border-bottom: none; }
+.todo-table tr:hover td { background: #faf8f2; }
+
+.todo-table .todo-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: var(--ink-soft);
+  width: 50px;
+  font-size: 12px;
+}
+
+.todo-table .todo-task {
+  color: var(--ink);
+  font-weight: 500;
+  max-width: 360px;
+}
+
+.todo-table .todo-desc {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.todo-table .todo-owner {
+  color: var(--ink-mid);
+  width: 90px;
+  font-weight: 500;
+}
+
+.todo-table .todo-block {
+  font-size: 12px;
+  color: var(--muted);
+  width: 160px;
+}
+
+/* =============== 阶段裁决 =============== */
+.verdict-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--ink);
+  border-radius: 2px;
+  padding: 32px 36px;
+  margin-bottom: 32px;
+}
+
+.verdict-panel .v-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.verdict-panel h3 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.verdict-panel p {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 720px;
+}
+
+.decision-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.decision-item {
+  background: var(--white);
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+  transition: background 0.2s ease;
+}
+
+.decision-item:hover { background: #faf8f2; }
+
+.decision-item .di-num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  padding-top: 1px;
+}
+
+.decision-item .di-content h5 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.decision-item .di-content p {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* 风险登记表 */
+.risk-register {
+  margin-top: 36px;
+}
+
+.risk-register h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.risk-register h4::before {
+  content: '';
+  width: 3px;
+  height: 18px;
+  background: var(--status-red);
+}
+
+.rr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.rr-table th,
+.rr-table td {
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--paper-line);
+  vertical-align: top;
+}
+
+.rr-table th {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--border);
+}
+
+.rr-table tr:last-child td { border-bottom: none; }
+.rr-id { font-family: 'Source Serif 4', serif; font-weight: 500; color: var(--ink-soft); width: 50px; font-variant-numeric: tabular-nums; }
+
+/* 异议汇总 */
+.dissent-panel {
+  margin-top: 36px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 28px 32px;
+}
+
+.dissent-panel h4 {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dissent-panel h4::before {
+  content: '';
+  width: 3px;
+  height: 18px;
+  background: var(--status-amber);
+}
+
+.dissent-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dissent-item {
+  padding: 18px 20px;
+  background: var(--canvas);
+  border: 1px solid var(--paper-line);
+  border-radius: 2px;
+}
+
+.dissent-item .di-author {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.dissent-item .di-author::before {
+  content: '挑战 · ';
+  color: var(--status-amber);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.dissent-item p {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.dissent-item p strong {
+  color: var(--ink-mid);
+  font-weight: 500;
+}
+
+/* =============== 附录区 =============== */
+.appendix-note {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  padding: 20px 24px;
+  background: var(--white);
+  border: 1px dashed var(--border);
+  border-radius: 2px;
+}
+
+/* =============== 页脚 =============== */
+.report-footer {
+  padding: 40px 0 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+.report-footer .footer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.report-footer .footer-mark {
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* 数据标注小标签 */
+.data-note {
+  display: inline-block;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 10px;
+  padding: 2px 6px;
+  background: var(--accent-soft);
+  color: var(--ink-mid);
+  border-radius: 2px;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+/* 来源标注 */
+.source-cite {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  color: var(--muted-light);
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* 并排两栏通用 */
+.split-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* 溢出容器 */
+.overflow-x {
+  overflow-x: auto;
+}
+
+/* =============== 端到端全流程总览图 =============== */
+.e2e-pipeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.e2e-stage {
+  width: 100%;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 22px 24px 20px;
+}
+
+.e2e-stage-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.e2e-stage-num {
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  padding: 2px 10px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.e2e-stage-name {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.e2e-stage-status {
+  margin-left: auto;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.e2e-stage-status.done {
+  background: rgba(74, 124, 89, 0.1);
+  color: var(--status-green);
+}
+
+.e2e-stage-status.partial {
+  background: rgba(196, 149, 42, 0.12);
+  color: var(--status-amber);
+}
+
+.e2e-stage-status.planned {
+  background: rgba(138, 127, 110, 0.12);
+  color: var(--muted);
+}
+
+.e2e-nodes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.e2e-nodes.four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.e2e-node {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 14px 16px 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.e2e-node::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.e2e-node.s-done::before { background: var(--status-green); }
+.e2e-node.s-part::before { background: var(--status-amber); }
+.e2e-node.s-plan::before { background: var(--muted-light); }
+
+.e2e-node.s-blank {
+  border: 1.5px solid rgba(184, 74, 63, 0.55);
+  background: rgba(184, 74, 63, 0.04);
+}
+
+.e2e-node.s-blank::before { background: var(--status-red); }
+
+.e2e-node-title {
+  font-family: 'Noto Serif SC', 'Source Serif 4', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.e2e-node-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.e2e-node-tag {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.e2e-node-tag.t-done {
+  background: rgba(74, 124, 89, 0.1);
+  color: var(--status-green);
+}
+
+.e2e-node-tag.t-part {
+  background: rgba(196, 149, 42, 0.12);
+  color: var(--status-amber);
+}
+
+.e2e-node-tag.t-plan {
+  background: rgba(138, 127, 110, 0.12);
+  color: var(--muted);
+}
+
+.e2e-node-tag.t-red {
+  background: rgba(184, 74, 63, 0.1);
+  color: var(--status-red);
+}
+
+.e2e-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.e2e-arrow .shaft {
+  width: 2px;
+  height: 22px;
+  background: var(--ink-soft);
+}
+
+.e2e-arrow .head {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--ink-soft);
+}
+
+.e2e-arrow .cap {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin: 2px 0;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 900px) {
+  .e2e-nodes,
+  .e2e-nodes.four {
+    grid-template-columns: 1fr;
+  }
+
+  .e2e-stage-status {
+    margin-left: 0;
+  }
+}
+
+/* =============== 响应式 =============== */
+@media (max-width: 900px) {
+  .report-wrap { padding: 0 20px; }
+  .toc-nav { padding: 0 20px; }
+  .cover-title { font-size: 32px; }
+  .cover-subtitle { font-size: 17px; }
+  .cover-summary { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .section-header { grid-template-columns: 1fr; gap: 12px; }
+  .two-col { grid-template-columns: 1fr; gap: 24px; }
+  .conclusion-grid { grid-template-columns: 1fr; }
+  .priority-tier { grid-template-columns: 1fr; gap: 10px; }
+  .quality-panel { grid-template-columns: 1fr; }
+  .decision-list { grid-template-columns: 1fr; }
+  .split-2 { grid-template-columns: 1fr; }
+  .module-detail .md-body { grid-template-columns: 1fr; gap: 16px; }
+  .risk-card { grid-template-columns: 44px 1fr; }
+  .risk-card .rc-severity { grid-column: 2; text-align: left; }
+  .fact-banner .fb-grid { grid-template-columns: repeat(2, 1fr); }
+  .constraint-list { grid-template-columns: 1fr; }
+  .slo-grid { grid-template-columns: repeat(2, 1fr); }
+  .figure-notes { grid-template-columns: 1fr; }
+  .dissent-grid { grid-template-columns: 1fr; }
+  .minor-risks ul { grid-template-columns: 1fr; }
+  .overflow-x { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="toc-nav">
+  <div class="toc-inner">
+    <a class="toc-item" href="#s1"><span class="toc-num">01</span>核心结论</a>
+    <a class="toc-item" href="#s2"><span class="toc-num">02</span>业务痛点</a>
+    <a class="toc-item" href="#s3"><span class="toc-num">03</span>范围优先级</a>
+    <a class="toc-item" href="#s4"><span class="toc-num">04</span>全流程与调用链</a>
+    <a class="toc-item" href="#s5"><span class="toc-num">05</span>系统架构图</a>
+    <a class="toc-item" href="#s6"><span class="toc-num">06</span>模块现状</a>
+    <a class="toc-item" href="#s7"><span class="toc-num">07</span>技术风险</a>
+    <a class="toc-item" href="#s8"><span class="toc-num">08</span>质量门控</a>
+    <a class="toc-item" href="#s9"><span class="toc-num">09</span>推进计划</a>
+    <a class="toc-item" href="#s10"><span class="toc-num">10</span>待办事项</a>
+    <a class="toc-item" href="#s11"><span class="toc-num">11</span>阶段裁决</a>
+  </div>
+</nav>
+
+<div class="report-wrap">
+
+  <!-- ============== 封面 ============== -->
+  <section class="cover" data-screen-label="01">
+    <div class="cover-meta">
+      <div class="left">
+        <span>Supplier Settlement Reconciliation</span>
+        <span>Post-Meeting Report</span>
+      </div>
+      <div class="right">
+        <span>内部 · Confidential</span>
+        <span>Document No. FDE-2026-001</span>
+      </div>
+    </div>
+
+    <div class="cover-center">
+      <div class="cover-eyebrow">8/18 供应商结算共创会 · 会后全量汇报</div>
+      <h1 class="cover-title">供应商结算对账系统<br>共创会成果与推进计划</h1>
+      <div class="cover-subtitle">基于财务 AI Coding 半成品源码的全链路技术侦察、需求对齐与阶段门控裁决</div>
+      <div class="cover-divider"></div>
+      <div class="cover-summary">
+        <div class="item">
+          <div class="num">~10%</div>
+          <div class="label">系统整体开发进度</div>
+        </div>
+        <div class="item">
+          <div class="num">200+</div>
+          <div class="label">活跃供应商需规则初始化</div>
+        </div>
+        <div class="item">
+          <div class="num">311</div>
+          <div class="label">TS/TSX 源码文件 · 15 模块</div>
+        </div>
+        <div class="item">
+          <div class="num">11</div>
+          <div class="label">已落地修复方案</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div class="date">
+        汇报日期 · 2026 年 8 月 18 日<br>
+        会议时长 · 14:00 – 15:33（93 分钟）
+      </div>
+<div class="reporter">
+                <div class="name">刘卿志</div>
+              </div>
+    </div>
+  </section>
+
+  <!-- ============== 01 核心结论 ============== -->
+  <section class="section" id="s1" data-screen-label="02">
+    <div class="section-header">
+      <div class="section-num">01 / 核心结论</div>
+      <div class="section-title-block">
+        <h2>会议达成六项核心共识</h2>
+        <p class="lede">财务部 AI Coding 搭建的供应商结算对账系统处于半成品状态（约 10% 进度）。共创会完成需求对齐与源码侦察，9 份专业产出全量到齐，Align/Recon 阶段门控通过，进入 Architect 阶段。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+        <div class="conclusion-grid">
+          <div class="conclusion-card">
+            <div class="card-tag">核心链路</div>
+            <h3>优先跑通账单上传 → 自动对账 → 差异池</h3>
+            <p>第一阶段聚焦核心链路稳定性验证，通过后再推进后续模块；发票管理、付款管理、余额看板全部暂缓。</p>
+          </div>
+          <div class="conclusion-card">
+            <div class="card-tag">规则初始化</div>
+            <h3>先人工配置 200+ 供应商对账规则</h3>
+            <p>AI 对账暂缓——避免 AI 判断偏差导致多轮交互拖慢效率，新增供应商随增随配，待链路稳定后再评估 AI 提效。</p>
+          </div>
+          <div class="conclusion-card">
+            <div class="card-tag">账单归集</div>
+            <h3>接口 + RPA + 人工三级归集体系</h3>
+            <p>我方账单走接口自动抓取，供应商账单走公共邮箱 / 后台 RPA 自动下载，零散账单保留人工上传兜底。</p>
+          </div>
+          <div class="conclusion-card">
+            <div class="card-tag">匹配规则</div>
+            <h3>一对一优先，可固化多对一，禁止多对多</h3>
+            <p>账单与发票匹配按供应商维度配置：优先一对一，支持按供应商固化多对一模式，架构层面禁止多对多匹配。</p>
+          </div>
+          <div class="conclusion-card">
+            <div class="card-tag">阶段门控</div>
+            <h3>Align / Recon 阶段门控通过</h3>
+            <p>9 份专业产出，10 项高风险主张经独立代码锚定复核 10/10 属实、零失真；跨 Agent 互检纠正 1 处偏差。</p>
+          </div>
+          <div class="conclusion-card">
+            <div class="card-tag">安全红线</div>
+            <h3>飞书 App Secret 硬编码泄露须立即轮换</h3>
+            <p>活凭证随 code.zip 分发至全队，属 CRITICAL 级安全事件，无论项目走向都必须立即轮换并改为环境变量读取。</p>
+          </div>
+        </div>
+        <div class="source-cite">来源：8/18 供应商结算共创会妙记全量 1h33m + 九份专业产出交叉验证（观澜/经纬/清渠/承宇/安澜/玉衡/传薪/启明）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 02 业务痛点 ============== -->
+  <section class="section" id="s2" data-screen-label="03">
+    <div class="section-header">
+      <div class="section-num">02 / 业务痛点</div>
+      <div class="section-title-block">
+        <h2>九大业务痛点，结算效率亟待系统升级</h2>
+        <p class="lede">当前结算全链路散落在腾讯云、大象系统、飞书多维表格三类工具中，人工操作占比极高，对账时效慢且不稳定，实操同学已弃用线上对账回归手工比对。每条痛点均可追溯到共创会说话人与时间码。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+        <ul class="pain-list">
+          <li>
+            <div class="p-index">01</div>
+            <div class="p-content">
+              <h4>工具分散、数据割裂</h4>
+              <div class="p-meta">景韶春 @00:24 · 张艺 @00:05-00:10</div>
+              <p class="p-desc">结算全链路散在腾讯云、大象系统、飞书多维表格三类工具，无统一入口，各环节数据无关联。</p>
+              <p class="p-impact"><strong>影响：</strong>结算同学需在多系统间切换，数据无法追溯串联，无法形成完整对账闭环；数据分散导致核对遗漏风险高。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">02</div>
+            <div class="p-content">
+              <h4>人工操作占比极高</h4>
+              <div class="p-meta">文芳 @00:10-00:24 · 张艺 @00:08-00:09</div>
+              <p class="p-desc">账单手工搬运、手工对账、发票手工签收、回票表手工填、付款单手工提；周结/半周结供应商月度提单量极大。</p>
+              <p class="p-impact"><strong>影响：</strong>人力消耗大、效率低、易出错；周结/半周结算量大导致月末峰值压力，错误率随人工疲劳上升。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">03</div>
+            <div class="p-content">
+              <h4>腾讯云自动对账不稳定且时效慢</h4>
+              <div class="p-meta">文芳 @00:14:30-00:15:46</div>
+              <p class="p-desc">上传后次日才出结果，偶发漏传、对账不准、跑不出来。</p>
+              <p class="p-impact"><strong>影响：</strong>时效不满足结算节奏（次日才出结果影响月末关账）；对账不准需二次人工复核，反而增加工作量。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">04</div>
+            <div class="p-content">
+              <h4>实操已弃用线上对账</h4>
+              <div class="p-meta">文芳 @00:15:58 ·「我基本上就是线下对」</div>
+              <p class="p-desc">因腾讯云体验差，结算同学回归线下手工比对。</p>
+              <p class="p-impact"><strong>影响：</strong>已有线上对账被弃用——这是「采纳度风险」：新系统若不能证明结果可信，将面临第二次弃用（大概率不可逆）。重新赢回信任的窗口只有一次。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">05</div>
+            <div class="p-content">
+              <h4>临时用飞书 aily 手动对账，无统一存储</h4>
+              <div class="p-meta">文芳 @00:27-00:31</div>
+              <p class="p-desc">未与多维表格对接，结果靠人工复制留存。</p>
+              <p class="p-impact"><strong>影响：</strong>对账结果不可持久化、不可追溯；人工复制易丢失/错漏；无法沉淀为历史数据供后续分析。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">06</div>
+            <div class="p-content">
+              <h4>差异处理无系统支撑</h4>
+              <div class="p-meta">Speaker3 / 张艺 @00:25-00:27，00:47-00:49</div>
+              <p class="p-desc">差异类型全靠人工判断打标，跨期/跨单对平无自动逻辑。</p>
+              <p class="p-impact"><strong>影响：</strong>差异处理依赖个人经验，无标准化流程；跨期/跨单对平靠人脑记忆，遗漏风险高；处理动作无留痕无法审计。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">07</div>
+            <div class="p-content">
+              <h4>发票与账单无关联映射</h4>
+              <div class="p-meta">文芳 @00:19:12-00:20:50 · 张艺 @00:21:03</div>
+              <p class="p-desc">签收需登录大象系统手工操作，回票表手工填，发票与对应账单无匹配。</p>
+              <p class="p-impact"><strong>影响：</strong>发票与账单无法对应核对；手工签收回票表工作量大；大象系统与对账系统割裂。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">08</div>
+            <div class="p-content">
+              <h4>付款无自动打通</h4>
+              <div class="p-meta">张艺 @00:08:41-00:09:18</div>
+              <p class="p-desc">需从结算表导出数据，再到分贝通对公付款端手工提单。</p>
+              <p class="p-impact"><strong>影响：</strong>付款环节手工操作易出错（金额/收款方错填）；结算→付款链路断裂，无法端到端追溯。</p>
+            </div>
+          </li>
+          <li>
+            <div class="p-index">09</div>
+            <div class="p-content">
+              <h4>供应商信息双轨</h4>
+              <div class="p-meta">Speaker3 / 张艺 @00:52-00:53</div>
+              <p class="p-desc">新系统供应商主数据从大表手动导入，未打通同步机制。</p>
+              <p class="p-impact"><strong>影响：</strong>供应商信息维护成本高；大表与系统数据不一致（300+ vs 700+ 口径差异）；新增供应商需手动同步，易遗漏。</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="fact-banner">
+          <div class="fb-title">关键事实数字（已核逐字稿）</div>
+          <div class="fb-grid">
+            <div class="fb-item">
+              <div class="fb-num">~10%</div>
+              <div class="fb-label">整体开发进度，仅完成核心链路开发与自测</div>
+            </div>
+            <div class="fb-item">
+              <div class="fb-num">700+</div>
+              <div class="fb-label">历史供应商主数据初始化导入数</div>
+            </div>
+            <div class="fb-item">
+              <div class="fb-num">200+</div>
+              <div class="fb-label">活跃供应商需规则初始化</div>
+            </div>
+            <div class="fb-item">
+              <div class="fb-num">5 类</div>
+              <div class="fb-label">已落地差异状态（一致/长款/短款/双方独有）</div>
+            </div>
+            <div class="fb-item">
+              <div class="fb-num">2 种</div>
+              <div class="fb-label">对平机制（跨期自动 / 跨单半自动）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 03 范围与优先级 ============== -->
+  <section class="section" id="s3" data-screen-label="04">
+    <div class="section-header">
+      <div class="section-num">03 / 范围与优先级</div>
+      <div class="section-title-block">
+        <h2>分三阶段推进，P0 聚焦核心链路</h2>
+        <p class="lede">第一阶段只跑通「账单上传 → 自动对账 → 差异池」，P1/P2 模块待核心链路稳定后依次启动。会议明确五条硬约束，作为 Architect 阶段 Spec 的强制输入，不得突破。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+        <div class="priority-stack">
+          <div class="priority-tier p0">
+            <div class="tier-label">P0 · 第一阶段</div>
+            <div class="tier-content">
+              <h4>核心链路跑通与规则初始化<span class="data-note">必须交付</span></h4>
+              <ul>
+                <li>账单上传 → 自动对账 → 差异池完整核心链路（含 5 项纯 bugfix 修复）</li>
+                <li>200+ 活跃供应商对账规则人工初始化（含批量配置工具 + 校验机制）</li>
+                <li>差异处理第一层留痕：差异归集 + 处理动作可追溯（difference_action_log 表）</li>
+                <li>事务安全补齐：uploadBills DELETE+INSERT 包裹事务 / 差异计算多步 UPDATE 包裹事务</li>
+                <li>安全基线：全局 ValidationPipe + CORS 白名单 + Helmet + 生产日志策略</li>
+                <li>5–10 家高频周结供应商灰度验证窗口（系统 vs 实操线下并行核验）</li>
+                <li>核心链路端到端测试 + 四分类单元测试 + 差异编号并发安全测试</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="priority-tier p1">
+            <div class="tier-label">P1 · 核心稳定后</div>
+            <div class="tier-content">
+              <h4>自动化归集与外部集成<span class="data-note">待 P0 稳定</span></h4>
+              <ul>
+                <li>账单自动归集：接口抓取 / 公共邮箱轮询 / 后台 RPA 下载三级体系</li>
+                <li>发票自动抓取与账单关联（一对一优先 / 多对一可固化，禁止多对多）</li>
+                <li>付款自动触发分贝通对公提单（打通结算→付款端到端链路）</li>
+                <li>供应商主数据同步机制（打通大表与新系统，解决口径不一致问题）</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="priority-tier p2">
+            <div class="tier-label">P2 · 后续专项</div>
+            <div class="tier-content">
+              <h4>余额管理与深度能力<span class="data-note">专项评估</span></h4>
+              <ul>
+                <li>供应商余额管理：预充值 / 后付费两类，含余额初始化与对账后增减规则（另开专项会）</li>
+                <li>沟通凭证上传留痕（第二层，待评估必要性）</li>
+                <li>原始 Excel 存储逻辑（待审计要求确认）</li>
+                <li>AI 辅助规则配置与智能对账（待价值验证后重启）</li>
+                <li>银行流水对账、返利管理深度能力</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="hard-constraints">
+          <h4>五条硬约束（会议共识，Architect Spec 不得突破）</h4>
+          <ol class="constraint-list">
+            <li>第一阶段只跑通核心链路「账单上传 → 自动对账 → 差异池」，验证稳定后再推后续模块</li>
+            <li>发票管理 / 付款管理 / 余额看板暂缓，待核心链路跑通再启动</li>
+            <li>AI 对账暂缓——先人工初始化 200+ 活跃供应商对账规则，新增供应商随增随配</li>
+            <li>账单归集方向：我方走接口/智能体自动抓取；供应商走公共邮箱/后台 RPA；零散账单保留人工上传兜底</li>
+            <li>账单-发票匹配：优先一对一，可固化多对一（按供应商配置），禁止多对多</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 04 核心链路流程图 ============== -->
+  <section class="section" id="s4" data-screen-label="05">
+    <div class="section-header">
+      <div class="section-num">04 / 核心链路</div>
+      <div class="section-title-block">
+        <h2>结算全流程与对账调用链</h2>
+        <p class="lede">先以端到端全流程总览呈现从账单归集、自动对账、开票匹配、提对公付款到最终打款的完整业务闭环及各环节当前实现状态；再基于 reconciliation.service.ts / difference-pool.service.ts 源码实际调用链，拆解对账环节的内部流转：从供应商配置规则出发，经过账单上传解析、字段映射、自动对账四分类、差异池生成与对冲检测、人工差异处理，最终完成审核与锁定。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+
+        <!-- 端到端全流程总览 -->
+        <div class="mermaid-panel">
+          <div class="mermaid-title">供应商结算端到端全流程总览</div>
+          <div class="mermaid-subtitle">账单归集 → 自动对账 → 开票匹配 → 提对公付款 → 打款与闭环 · 按当前实现状态标注</div>
+
+          <div class="e2e-pipeline">
+
+            <!-- 阶段一：账单归集 -->
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">阶段一</span>
+                <span class="e2e-stage-name">账单归集</span>
+                <span class="e2e-stage-status partial">当前人工上传 · P1 自动归集</span>
+              </div>
+              <div class="e2e-nodes">
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">我方账单自动抓取</div>
+                  <div class="e2e-node-desc">接口 / 智能体自动抓取分贝通侧账单</div>
+                  <span class="e2e-node-tag t-red">当前完全空白 · 规划 P1</span>
+                </div>
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">供应商账单自动归集</div>
+                  <div class="e2e-node-desc">公共邮箱轮询 + 后台 RPA 自动下载</div>
+                  <span class="e2e-node-tag t-red">当前完全空白 · 规划 P1</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">人工上传兑底</div>
+                  <div class="e2e-node-desc">Excel 双 Sheet 解析 · 合并提交 · 当前唯一渠道</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow">
+              <div class="shaft"></div>
+              <div class="cap">结构化账单入库</div>
+              <div class="head"></div>
+            </div>
+
+            <!-- 阶段二：自动对账 -->
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">阶段二</span>
+                <span class="e2e-stage-name">自动对账</span>
+                <span class="e2e-stage-status done">P0 核心链路 · 已实现</span>
+              </div>
+              <div class="e2e-nodes four">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">字段映射与清洗</div>
+                  <div class="e2e-node-desc">按供应商配置动态映射主键 / 金额 / 状态字段</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">自动对账四分类</div>
+                  <div class="e2e-node-desc">按 orderSn 匹配 · 一致 / 长款 / 短款 / 单方独有</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">差异池与对冲检测</div>
+                  <div class="e2e-node-desc">差异编号 · 跨期自动对平 · 跨单半自动对平</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">人工处理与审核锁定</div>
+                  <div class="e2e-node-desc">差异标记 · 提交审核 · 确认后锁定</div>
+                  <span class="e2e-node-tag t-part">已实现 · 待加固</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow">
+              <div class="shaft"></div>
+              <div class="cap">对账单确认（confirmed + 锁定）</div>
+              <div class="head"></div>
+            </div>
+
+            <!-- 阶段三：开票匹配 -->
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">阶段三</span>
+                <span class="e2e-stage-name">开票匹配</span>
+                <span class="e2e-stage-status planned">规划 P1 · 当前仅发票 CRUD 雏形</span>
+              </div>
+              <div class="e2e-nodes">
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">发票自动抓取</div>
+                  <div class="e2e-node-desc">大象系统接口对接 + 签收信息自动回填</div>
+                  <span class="e2e-node-tag t-red">当前完全空白 · 规划 P1</span>
+                </div>
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">账单–发票匹配</div>
+                  <div class="e2e-node-desc">一对一优先 · 多对一可按供应商固化 · 禁止多对多</div>
+                  <span class="e2e-node-tag t-plan">规划 P1</span>
+                </div>
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">匹配差异处理</div>
+                  <div class="e2e-node-desc">票款不一致的退回 / 补开 / 冲红流程</div>
+                  <span class="e2e-node-tag t-plan">规划 P1</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow">
+              <div class="shaft"></div>
+              <div class="cap">票账匹配完成 · 应结金额确定</div>
+              <div class="head"></div>
+            </div>
+
+            <!-- 阶段四：提对公付款 -->
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">阶段四</span>
+                <span class="e2e-stage-name">提对公付款</span>
+                <span class="e2e-stage-status planned">规划 P1 · 当前仅付款 CRUD 雏形</span>
+              </div>
+              <div class="e2e-nodes">
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">付款申请单生成</div>
+                  <div class="e2e-node-desc">基于已确认对账单自动生成付款申请</div>
+                  <span class="e2e-node-tag t-plan">规划 P1</span>
+                </div>
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">分贝通自动提单</div>
+                  <div class="e2e-node-desc">对公付款提单接口打通 · 取代手工导出提单</div>
+                  <span class="e2e-node-tag t-red">当前完全空白 · 规划 P1</span>
+                </div>
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">审批流转</div>
+                  <div class="e2e-node-desc">内部审批通过后推送付款指令</div>
+                  <span class="e2e-node-tag t-plan">规划 P1</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow">
+              <div class="shaft"></div>
+              <div class="cap">审批通过 · 付款指令下发</div>
+              <div class="head"></div>
+            </div>
+
+            <!-- 阶段五：打款与闭环 -->
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">阶段五</span>
+                <span class="e2e-stage-name">打款与闭环</span>
+                <span class="e2e-stage-status planned">规划 P1 / P2</span>
+              </div>
+              <div class="e2e-nodes four">
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">分贝通打款执行</div>
+                  <div class="e2e-node-desc">对公付款执行与回单获取</div>
+                  <span class="e2e-node-tag t-plan">规划 P1</span>
+                </div>
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">付款状态回写</div>
+                  <div class="e2e-node-desc">付款结果回写对账单 · 端到端可追溯</div>
+                  <span class="e2e-node-tag t-plan">规划 P1</span>
+                </div>
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">余额更新</div>
+                  <div class="e2e-node-desc">预充值扣减 / 后付费挂账 · 余额对账</div>
+                  <span class="e2e-node-tag t-plan">规划 P2</span>
+                </div>
+                <div class="e2e-node s-plan">
+                  <div class="e2e-node-title">全流程归档</div>
+                  <div class="e2e-node-desc">账单–发票–付款全链路留痕归档</div>
+                  <span class="e2e-node-tag t-plan">规划 P2</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="legend-row">
+            <span class="legend-item"><span class="legend-dot green"></span> 已实现</span>
+            <span class="legend-item"><span class="legend-dot amber"></span> 已实现 · 雏形 / 待加固</span>
+            <span class="legend-item"><span class="legend-dot" style="background: var(--muted-light);"></span> 规划中（P1 / P2）</span>
+            <span class="legend-item"><span class="legend-dot red"></span> 当前完全空白</span>
+          </div>
+        </div>
+
+        <!-- 主流程图 -->
+        <div class="mermaid-panel">
+          <div class="mermaid-title">对账业务完整调用链</div>
+          <div class="mermaid-subtitle">基于 code.zip 源码实际调用链梳理 · Mermaid flowchart TD</div>
+          <div class="mermaid-img-wrap">
+            <img src="assets/flowchart-call-chain.svg" alt="对账业务完整调用链流程图" class="mermaid-img">
+          </div>
+          <div class="legend-row">
+            <span class="legend-item">状态说明：完整 = 核心逻辑已实现；雏形 = 有基础需完善；空白 = 未实现或仅占位</span>
+          </div>
+        </div>
+
+        <!-- 状态机图 -->
+        <div class="mermaid-panel">
+          <div class="mermaid-title">对账单状态机</div>
+          <div class="mermaid-subtitle">draft → reconciled → submitted → confirmed · Mermaid stateDiagram-v2</div>
+          <div class="mermaid-img-wrap">
+            <img src="assets/state-machine.svg" alt="对账单状态机图" class="mermaid-img">
+          </div>
+          <div class="figure-notes">
+            <div class="figure-note">
+              <h5>当前实现问题</h5>
+              <p>auditReconciliation 拒绝时 status 设为 draft 而非 reconciled——审核不通过对账状态直接退回草稿，等于整轮对账状态被清零。承宇纠正、玉衡锚定确认。</p>
+            </div>
+            <div class="figure-note">
+              <h5>修复方向</h5>
+              <p>拒绝时回退到 reconciled 状态（保留对账结果，仅退回审核前状态）。属纯 bugfix，已批准立即动手修复。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 四分类 + 对冲说明 -->
+        <div class="split-2">
+          <div class="mermaid-panel" style="margin-bottom: 0;">
+            <div class="mermaid-title" style="font-size: 15px;">差异四分类说明</div>
+            <div class="mermaid-subtitle">按 orderSn 分组后 company 金额 vs supplier 金额对比</div>
+            <div class="figure-notes" style="grid-template-columns: 1fr; margin-top: 16px;">
+              <div class="figure-note">
+                <h5>核对一致 · diff = 0</h5>
+                <p>两端 orderSn 金额完全相等（含金额容差默认 0.01），清除差异标记，直接进入 confirmed 通道。</p>
+              </div>
+              <div class="figure-note">
+                <h5>长款 over · diff 大于 0</h5>
+                <p>我方账单金额大于供应商端，进入差异池待处理。</p>
+              </div>
+              <div class="figure-note">
+                <h5>短款 short · diff 小于 0</h5>
+                <p>我方账单金额小于供应商端，进入差异池待处理。</p>
+              </div>
+              <div class="figure-note">
+                <h5>单方独有 · company_only / supplier_only</h5>
+                <p>仅一端存在该 orderSn，另一方无对应记录，进入差异池待处理。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mermaid-panel" style="margin-bottom: 0;">
+            <div class="mermaid-title" style="font-size: 15px;">跨期 · 跨单对平机制</div>
+            <div class="mermaid-subtitle">两种自动 / 半自动闭环路径</div>
+            <div class="figure-notes" style="grid-template-columns: 1fr; margin-top: 16px;">
+              <div class="figure-note">
+                <h5>跨期对平 · 自动</h5>
+                <p>同一 orderSn 出现在不同对账周期，前后期净差异 = 0 → 系统自动标记 cross_period_offset 闭环，无需人工干预。</p>
+              </div>
+              <div class="figure-note">
+                <h5>跨单对平 · 半自动</h5>
+                <p>不同 orderSn 但人工判定可对平 → 人工设置关联订单号 → 系统检测两单净差异 = 0 → 标记 cross_order_offset 闭环；支持取消关联。</p>
+              </div>
+              <div class="figure-note">
+                <h5>差异编号规则</h5>
+                <p>D + 年月日 + 当日序号，格式 D{yy}{mm}{dd}{seq}。⚠️ 当前用 SELECT COUNT + UPDATE 实现，并发会重号，需改用 PG sequence。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 05 系统架构图 ============== -->
+  <section class="section" id="s5" data-screen-label="06">
+    <div class="section-header">
+      <div class="section-num">05 / 系统架构</div>
+      <div class="section-title-block">
+        <h2>四层系统架构全景</h2>
+        <p class="lede">基于 Lark APAAS fullstack-nestjs 模板搭建，前端 React 19 + 后端 NestJS 10 + PostgreSQL 技术栈。前端层 6 个主要组件、后端层 6 个核心 Service、8 个暂缓模块、基础设施层含飞书 APAAS 平台与 6 个外部集成点。模块完成度状态详见下方文字说明。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+
+        <div class="mermaid-panel">
+          <div class="mermaid-title">四层系统架构图</div>
+          <div class="mermaid-subtitle">前端层 → 后端层 → 暂缓模块层 → 基础设施层 · Mermaid flowchart TB</div>
+          <div class="mermaid-img-wrap">
+            <img src="assets/architecture-4layer.svg" alt="四层系统架构图" class="mermaid-img">
+          </div>
+          <div class="legend-row">
+            <span class="legend-item">状态说明：完整 = 核心逻辑已实现；雏形 = 有基础需完善；空白 = 未实现或仅占位</span>
+          </div>
+        </div>
+
+        <!-- 技术栈版本明细 -->
+        <div class="mermaid-panel">
+          <div class="mermaid-title">技术栈版本明细</div>
+          <div class="mermaid-subtitle">基于 code.zip package.json 与 import 语句确认</div>
+          <div class="split-2">
+            <div>
+              <h5 style="font-family:'Noto Serif SC','Source Serif 4',serif;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:12px;">前端技术栈</h5>
+              <ul style="list-style:none;">
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  React 19 + TypeScript
+                </li>
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  Vite 7 + TailwindCSS 4
+                </li>
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  Radix UI 组件库
+                </li>
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  xlsx 0.18（Excel 解析）
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 style="font-family:'Noto Serif SC','Source Serif 4',serif;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:12px;">后端 + 基础设施</h5>
+              <ul style="list-style:none;">
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  NestJS 10 + Drizzle ORM 0.44
+                </li>
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  PostgreSQL
+                </li>
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  @lark-apaas/fullstack-nestjs-core
+                </li>
+                <li style="padding:6px 0 6px 14px;position:relative;font-family:'Noto Sans SC',sans-serif;font-size:12.5px;color:var(--ink-mid);">
+                  <span style="position:absolute;left:0;top:12px;width:5px;height:5px;background:var(--ink-soft);border-radius:50%;"></span>
+                  AI 插件 ai-text-to-json v1.0.24
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 暂缓模块表 -->
+        <h3 class="sub-section-title">暂缓模块现状一览</h3>
+        <div class="overflow-x">
+          <table class="deferred-table">
+            <thead>
+              <tr>
+                <th>模块</th>
+                <th>状态</th>
+                <th>当前实现</th>
+                <th>暂缓原因</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">发票管理</td>
+                <td><span class="status-pill amber"><span class="dot"></span>CRUD 雏形</span></td>
+                <td>有 CRUD + 状态管理，无账单-发票匹配逻辑</td>
+                <td>P1 · 待核心链路稳定</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">付款管理</td>
+                <td><span class="status-pill amber"><span class="dot"></span>CRUD 雏形</span></td>
+                <td>有 CRUD + 审核流程，未打通分贝通对公付款</td>
+                <td>P1 · 待核心链路稳定</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">银行流水</td>
+                <td><span class="status-pill amber"><span class="dot"></span>仅导入</span></td>
+                <td>仅 importStatements 批量导入，无对账逻辑</td>
+                <td>P2 · 后续专项</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">余额管理</td>
+                <td><span class="status-pill red"><span class="dot"></span>几乎空白</span></td>
+                <td>仅一个 GET /api/balance 端点</td>
+                <td>P2 · 另开专项会</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">返利管理</td>
+                <td><span class="status-pill amber"><span class="dot"></span>CRUD 雏形</span></td>
+                <td>有 CRUD + 与对账单关联</td>
+                <td>P2 · 后续</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">AI 对账</td>
+                <td><span class="status-pill amber"><span class="dot"></span>已实现暂缓</span></td>
+                <td>ai-text-to-json 插件，格式化账单 → AI 差异识别 → 回写</td>
+                <td>会议决定暂缓 · 先人工初始化 200+ 规则</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">看板</td>
+                <td><span class="status-pill amber"><span class="dot"></span>有雏形</span></td>
+                <td>metrics / amount-trend / todos 三个端点</td>
+                <td>业务看板 · 非运维监控</td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;color:var(--ink);">飞书集成</td>
+                <td><span class="status-pill amber"><span class="dot"></span>仅文档导出</span></td>
+                <td>硬编码 App ID/Secret，仅 exportDocsToFeishu</td>
+                <td>唯一外部集成点 · 凭证泄露安全风险</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 06 模块现状 ============== -->
+  <section class="section" id="s6" data-screen-label="07">
+    <div class="section-header">
+      <div class="section-num">06 / 模块现状</div>
+      <div class="section-title-block">
+        <h2>P0 核心链路五大模块逐一审视</h2>
+        <p class="lede">基于源码全量审读与独立代码锚定复核，对 P0 核心链路 5 个模块逐一拆解已实现能力与缺口。对账引擎与差异池核心逻辑已完成，账单上传与规则配置模块存在较多待完善项。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+
+        <!-- 模块 1 -->
+        <div class="module-detail">
+          <div class="md-header">
+            <div>
+              <div class="md-title">模块 1 · 账单上传 / 解析</div>
+              <div class="md-files">parseBillFile.ts · UploadBillsDialog.tsx · uploadBills API</div>
+            </div>
+            <span class="status-pill amber"><span class="dot"></span>有雏形，需完善</span>
+          </div>
+          <div class="md-body">
+            <div class="md-col done">
+              <h5>已实现</h5>
+              <ul>
+                <li>Excel 双 Sheet 解析——公司端按 Sheet 名含「分贝通订单」定位</li>
+                <li>供应商端智能识别：元数据行跳过、汇总行截断、标题行前 20 行扫描</li>
+                <li>数据行正则验证：结算单号 XS-字母-数字 / 票号 3位数字-10位数字</li>
+                <li>前端上传 + 解析 + 预览 + 合并提交（公司端+供应商端一次性提交）</li>
+                <li>字段动态映射：从供应商配置读取 primaryKeyField / amountField / statusField</li>
+                <li>重复上传订单编号交集检测（409 拦截）</li>
+                <li>0 金额占比告警 + 同 orderSn 多行金额自动聚合</li>
+                <li>上传后自动触发差异计算（markReconciliationDifferences）</li>
+              </ul>
+            </div>
+            <div class="md-col gap">
+              <h5>缺口</h5>
+              <ul>
+                <li>无账单自动归集：RPA / 公共邮箱 / 接口抓取全空白，仅人工上传</li>
+                <li>解析规则硬编码：供应商数据行识别正则写死在前端，新增格式需改代码</li>
+                <li>无原始 Excel 存储：仅存结构化字段，原始文件不保留</li>
+                <li>uploadBills 无事务：DELETE 旧数据 + INSERT 新数据未包事务</li>
+                <li>无文件大小 / 行数限制：大批量上传无分片或流式处理</li>
+                <li>覆盖上传不分 source 分片：先传公司端后传供应商端会丢数据</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模块 2 -->
+        <div class="module-detail">
+          <div class="md-header">
+            <div>
+              <div class="md-title">模块 2 · 对账引擎</div>
+              <div class="md-files">autoReconcile · markReconciliationDifferences · 状态机</div>
+            </div>
+            <span class="status-pill green"><span class="dot"></span>核心逻辑已实现</span>
+          </div>
+          <div class="md-body">
+            <div class="md-col done">
+              <h5>已实现</h5>
+              <ul>
+                <li>按 orderSn 匹配两端账单，支持可配置主键字段</li>
+                <li>金额容差可配置（默认 0.01）</li>
+                <li>状态白名单过滤（filterByStatus + allowedStatuses）</li>
+                <li>四分类差异计算：核对一致 / over / short / company_only / supplier_only</li>
+                <li>更新 reconciliation 汇总额（settlementAmount / differenceAmount）</li>
+                <li>状态机 draft → reconciled → submitted → confirmed</li>
+                <li>上传后自动触发 + 支持手动重新计算（POST /:id/recalculate）</li>
+                <li>锁定 / 解锁、审核流程、批量结算时间设置</li>
+              </ul>
+            </div>
+            <div class="md-col gap">
+              <h5>缺口</h5>
+              <ul>
+                <li>审核拒绝回退过头：拒绝时退回 draft 而非 reconciled（状态清零）</li>
+                <li>无审计日志：谁在什么时候做了什么操作（上传/对账/审核）无记录</li>
+                <li>差异 → 应结算金额勾稽公式缺失</li>
+                <li>多步 UPDATE 无事务包裹，中断导致数据不一致</li>
+                <li>reconciliation.service.ts 2392 行巨型文件，维护风险高</li>
+                <li>零测试覆盖，核心对账逻辑无回归保障</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模块 3 -->
+        <div class="module-detail">
+          <div class="md-header">
+            <div>
+              <div class="md-title">模块 3 · 差异池</div>
+              <div class="md-files">difference-pool.service.ts · DifferencePool 页面</div>
+            </div>
+            <span class="status-pill green"><span class="dot"></span>核心逻辑完整</span>
+          </div>
+          <div class="md-body">
+            <div class="md-col done">
+              <h5>已实现</h5>
+              <ul>
+                <li>差异编号自动生成：D{yy}{mm}{dd}{seq} 格式，按日期 + 序号</li>
+                <li>跨期对平自动检测：同 orderSn 不同周期净差 = 0 → cross_period_offset</li>
+                <li>跨单对平：人工设关联订单后净差 = 0 → cross_order_offset，支持取消</li>
+                <li>差异状态机：pending → cross_period_offset / cross_order_offset</li>
+                <li>列表查询：按供应商 / 差异类型 / 差异状态 / 周期多维筛选 + 分页</li>
+                <li>差异标记 markDifference + 状态更新 updateDifferenceStatus</li>
+                <li>recalculateDifferenceStatuses 使用事务（唯一使用事务的模块）</li>
+              </ul>
+            </div>
+            <div class="md-col gap">
+              <h5>缺口</h5>
+              <ul>
+                <li>差异处理动作无审计留痕：仅状态变更无处理人 / 时间 / 说明</li>
+                <li>差异编号序列竞态：并发上传同日会生成重复编号（SELECT COUNT + UPDATE）</li>
+                <li>差异看板维度单一：无差异趋势分析、无供应商维度统计</li>
+                <li>userId 仅写 logger.log 不入库，数据库零操作记录</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模块 4 -->
+        <div class="module-detail">
+          <div class="md-header">
+            <div>
+              <div class="md-title">模块 4 · 对账规则配置</div>
+              <div class="md-files">reconciliation-rules.service.ts · ReconciliationRules 前端 3 文件</div>
+            </div>
+            <span class="status-pill amber"><span class="dot"></span>有雏形，缺批量工具</span>
+          </div>
+          <div class="md-body">
+            <div class="md-col done">
+              <h5>已实现</h5>
+              <ul>
+                <li>后端完整 CRUD：供应商列表 + 配置状态 / 查规则 / 存规则</li>
+                <li>公司端/供应商端字段映射：主键字段、金额字段、状态字段、映射表</li>
+                <li>对账规则配置：状态过滤开关、白名单状态列表、金额容差</li>
+                <li>对账周期配置：monthly / weekly / biweekly / custom</li>
+                <li>存储：supplier.companyBillConfig / supplierBillConfig（JSONB）</li>
+                <li>前端配置页面（3 文件）</li>
+              </ul>
+            </div>
+            <div class="md-col gap">
+              <h5>缺口</h5>
+              <ul>
+                <li>无批量配置工具：200+ 活跃供应商只能逐个 UI 配置</li>
+                <li>按每家配置 + 核对 10–15 分钟估算，共需 30–50 小时纯人工</li>
+                <li>无配置校验：字段映射配置错误仅运行时暴露，无主动校验</li>
+                <li>JSONB 无 schema 定义，配错静默产出错误差异</li>
+                <li>无配置模板：同类供应商无法复用配置</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 模块 5 -->
+        <div class="module-detail">
+          <div class="md-header">
+            <div>
+              <div class="md-title">模块 5 · 供应商管理</div>
+              <div class="md-files">supplier.service.ts · Suppliers 前端 6 文件</div>
+            </div>
+            <span class="status-pill green"><span class="dot"></span>相对完整</span>
+          </div>
+          <div class="md-body">
+            <div class="md-col done">
+              <h5>已实现</h5>
+              <ul>
+                <li>完整 CRUD + 批量导入</li>
+                <li>账单配置管理 + 周期生成</li>
+                <li>40+ 字段数据模型：基本信息、结算方式/周期、账单/开票规则</li>
+                <li>联系人、银行账户、自定义字段、合作状态</li>
+                <li>前端供应商管理页面（6 文件）</li>
+              </ul>
+            </div>
+            <div class="md-col gap">
+              <h5>缺口</h5>
+              <ul>
+                <li>供应商主数据数量口径不一致：大表 300+ vs 导入 700+</li>
+                <li>无主数据同步机制：新系统与大表手动导入未打通</li>
+                <li>银行账户等敏感字段明文存储，无数据加密</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="source-cite">模块现状全部基于 code.zip 源码实证，经玉衡独立代码锚定复核确认</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 07 技术风险 ============== -->
+  <section class="section" id="s7" data-screen-label="08">
+    <div class="section-header">
+      <div class="section-num">07 / 技术风险</div>
+      <div class="section-title-block">
+        <h2>十二项技术风险按严重度排序</h2>
+        <p class="lede">基于源码全量审读与独立代码锚定复核，识别出 12 项技术风险（含 1 项 CRITICAL 安全事件）。每条风险均附代码位置、严重度、影响分析与修复方向，代码位置经玉衡回源码逐一验证属实。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+
+        <div class="risk-card">
+          <div class="rc-num">R01</div>
+          <div class="rc-body">
+            <h4>飞书 App Secret 硬编码泄露</h4>
+            <div class="rc-loc">server/modules/feishu/feishu.service.ts:5-6</div>
+            <p class="rc-desc">直接写死 FEISHU_APP_ID 与 FEISHU_APP_SECRET 明文，活凭证随 code.zip 分发到整个小队。.env 文件亦在 zip 内，.gitignore 仅忽略 .env.local。财务系统凭证泄露风险极高。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>立即在飞书开发者后台轮换该 Secret；改为从 process.env 读取；.gitignore 忽略 .env</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-critical">CRITICAL</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R02</div>
+          <div class="rc-body">
+            <h4>账单上传无事务包裹</h4>
+            <div class="rc-loc">reconciliation.service.ts:2096-2300</div>
+            <p class="rc-desc">uploadBills 的 DELETE 旧数据 + INSERT 新数据全是独立 await this.db，零 .transaction()。上传中断或异常导致旧数据已删、新数据未写入，数据丢失。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>将 DELETE + INSERT 包裹在 db.transaction() 中。属纯 bugfix，已批准立即动手。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R03</div>
+          <div class="rc-body">
+            <h4>自动对账多步 UPDATE 无事务</h4>
+            <div class="rc-loc">markReconciliationDifferences 内多步独立 UPDATE</div>
+            <p class="rc-desc">对账计算中断导致数据不一致（部分差异已标记、部分未标记），状态与汇总额可能不一致。仅 difference-pool 的 recalculateDifferenceStatuses 用了事务。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>多步 UPDATE 包裹事务。属纯 bugfix，已批准立即动手。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R04</div>
+          <div class="rc-body">
+            <h4>审核拒绝回退过头到 draft</h4>
+            <div class="rc-loc">reconciliation.service.ts:1598 · auditReconciliation</div>
+            <p class="rc-desc">status: data.passed ? 'confirmed' : 'draft'——审核不通过对账状态直接退回草稿，markReconciliationDifferences 设的 reconciled 状态丢失，等于整轮对账状态被清零。经纬原述「仅记录不回退」不准确，承宇纠正为「回退过头」，玉衡坐实。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>拒绝时回退到 reconciled 而非 draft。属纯 bugfix，已批准立即动手。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R05</div>
+          <div class="rc-body">
+            <h4>差异处理审计留痕完全缺失</h4>
+            <div class="rc-loc">reconciliation.service.ts:1610 · markDifference / :1649 · updateDifferenceStatus</div>
+            <p class="rc-desc">两处 userId 仅出现在 this.logger.log(...)，零 DB 写入；无 difference_action_log 表。谁在什么时候标记/处理了什么差异，数据库零记录。会议要求「差异处理第一层留痕」P0 完全未实现。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>新增差异状态变更历史表（itemId / userId / action / oldValue / newValue / remark / createdAt），表结构需等 Architect Spec，勿自行脑补。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R06</div>
+          <div class="rc-body">
+            <h4>巨型文件 reconciliation.service.ts 2392 行</h4>
+            <div class="rc-loc">reconciliation.service.ts 全文件</div>
+            <p class="rc-desc">承担上传/对账/差异/审核/锁定/查询全部职责，修改一处可能影响不相关功能；维护风险高；多 Agent 并行修改易产生合并冲突。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>拆分为 UploadService / ReconcileEngine / DifferenceService / AuditService 四个独立 Service。Architect 阶段执行。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R07</div>
+          <div class="rc-body">
+            <h4>零测试覆盖</h4>
+            <div class="rc-loc">package.json 有 jest 配置 · 全仓 *.test.ts/*.spec.ts 零命中</div>
+            <p class="rc-desc">核心对账逻辑无回归保障，「验证稳定性」无锚可依；修复后无回归验证手段。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>P0 放行门槛纳入——关键路径端到端测试、四分类单元测试、差异编号并发安全测试。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R08</div>
+          <div class="rc-body">
+            <h4>请求/响应体全量日志泄露</h4>
+            <div class="rc-loc">.env · LOG_REQUEST_BODY=true / LOG_RESPONSE_BODY=true</div>
+            <p class="rc-desc">账单金额、供应商名称、银行账户号等敏感财务数据进入 stdout 日志。仅 console.log 级输出，无结构化日志、无脱敏、无日志留存策略。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>生产环境关闭 body 日志，或加字段级脱敏中间件。属安全基线先行项。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R09</div>
+          <div class="rc-body">
+            <h4>无 CORS / Helmet / ValidationPipe / 限流</h4>
+            <div class="rc-loc">server/main.ts 全文 36 行 · 仅 configureApp</div>
+            <p class="rc-desc">API 路由本身无服务端 Guard 保护，若平台鉴权被绕过或配置不当则裸奔；DTO 仅显式 @UsePipes 时校验，全局不生效。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>P0 至少补全局 ValidationPipe + CORS 白名单 + Helmet。属安全基线先行项。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-high">高</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R10</div>
+          <div class="rc-body">
+            <h4>差异编号序列竞态</h4>
+            <div class="rc-loc">difference-pool.service.ts:399-440</div>
+            <p class="rc-desc">SELECT sn LIKE datePrefix% → seq = existing.length → 逐条 UPDATE，无锁无事务无 PG sequence。并发上传两个供应商的账单会生成重复差异编号（同日并发场景）。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>改用 PG sequence 或 SELECT ... FOR UPDATE。属纯 bugfix，已批准立即动手。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-mid">中</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R11</div>
+          <div class="rc-body">
+            <h4>覆盖上传按 source 不分片丢数据</h4>
+            <div class="rc-loc">uploadBills 覆盖路径 delete 全删后插本次</div>
+            <p class="rc-desc">若先传公司端、后传供应商端（分两次调用，现实场景因供应商账单滞后），第二次会把第一次的公司端数据删掉。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>覆盖改为按 source 分片覆盖。属纯 bugfix，已批准立即动手。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-mid">中</span></div>
+        </div>
+
+        <div class="risk-card">
+          <div class="rc-num">R12</div>
+          <div class="rc-body">
+            <h4>JSONB 配置无 schema 校验 + 解析规则硬编码</h4>
+            <div class="rc-loc">supplier.companyBillConfig/supplierBillConfig（JSONB）· parseBillFile.ts</div>
+            <p class="rc-desc">字段映射/规则配置错误仅运行时暴露，配错静默产出错误差异（200+ 供应商批量配置时风险放大）；新增供应商格式需改代码重新部署。</p>
+            <p class="rc-fix"><strong>修复方向：</strong>JSONB 加 schema 定义 + 主动校验（字段映射存在性 / 金额可解析 / 状态白名单非空）；解析规则提取为可配置规则。</p>
+          </div>
+          <div class="rc-severity"><span class="badge badge-mid">中</span></div>
+        </div>
+
+        <!-- 次要风险 -->
+        <div class="minor-risks">
+          <h4>次要风险（低严重度）</h4>
+          <ul>
+            <li><strong>无数据迁移管理：</strong>schema.ts 由 db-schema-sync 自动生成，无 migration 文件，改表即覆盖无回滚。修复方向：drizzle-kit migrations。</li>
+            <li><strong>无监控 / 告警 / 备份恢复：</strong>无健康检查端点、无 Prometheus 指标、无告警、无 PG 备份策略。修复方向：health 端点 + 基础监控告警 + 备份策略。</li>
+            <li><strong>AI 单点依赖：</strong>AI 对账仅依赖一个插件，无降级/超时/熔断；tryRecoverFromPluginError 是正则 hack。（会议已决定暂缓 AI 对账，暂不紧迫）</li>
+            <li><strong>filterByStatus 逻辑重复：</strong>uploadBills.buildInsertItems 和 autoReconcile 各自实现状态过滤。修复方向：提取为 ReconciliationRuleService.applyStatusFilter()。</li>
+          </ul>
+        </div>
+
+        <div class="source-cite">全部风险基于代码实证，玉衡独立代码锚定复核 10/10 高风险主张属实</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 08 质量门控 ============== -->
+  <section class="section" id="s8" data-screen-label="09">
+    <div class="section-header">
+      <div class="section-num">08 / 质量门控</div>
+      <div class="section-title-block">
+        <h2>Align/Recon 阶段门控通过</h2>
+        <p class="lede">五份核心产出经独立代码锚定复核，10 项高风险主张全部属实、零失真。三项反指标当前全在最差值，已纳入 P0 验收门槛强制项。P0 放行设四道质量门槛 + 四项运维 SLO 作为「稳定」的可验收依据。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+
+        <div class="quality-panel">
+          <div class="quality-card">
+            <h4>代码复核结论</h4>
+            <div class="qc-subtitle">玉衡独立代码锚定复核</div>
+            <div class="qc-big">10/10</div>
+            <div class="qc-big-label">高风险主张属实 · 零失真</div>
+            <div class="metric-row">
+              <span class="m-label">核心主张失真率</span>
+              <span class="m-value" style="font-size: 14px;">0%</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">跨 Agent 互检纠错</span>
+              <span class="m-value" style="font-size: 14px;">1 处</span>
+            </div>
+          </div>
+
+          <div class="quality-card">
+            <h4>反指标基线</h4>
+            <div class="qc-subtitle">三项全在最差值 · P0 主跟踪项</div>
+            <div class="metric-row">
+              <span class="m-label">测试覆盖率</span>
+              <span class="m-value" style="font-size: 14px; color: var(--status-red);">0</span>
+              <div class="m-bar"><div class="m-bar-fill" style="width: 2%; background: var(--status-red);"></div></div>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">审计留痕覆盖率</span>
+              <span class="m-value" style="font-size: 14px; color: var(--status-red);">0</span>
+              <div class="m-bar"><div class="m-bar-fill" style="width: 2%; background: var(--status-red);"></div></div>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">迁移管理覆盖</span>
+              <span class="m-value" style="font-size: 14px; color: var(--status-red);">0</span>
+              <div class="m-bar"><div class="m-bar-fill" style="width: 2%; background: var(--status-red);"></div></div>
+            </div>
+            <div class="metric-row" style="border-bottom: none;">
+              <span class="m-label">验收要求</span>
+              <span class="m-value" style="font-size: 12px; color: var(--muted);">趋近 0 / 单调下降</span>
+            </div>
+          </div>
+
+          <div class="quality-card">
+            <h4>阶段门控裁决</h4>
+            <div class="qc-subtitle">Align / Recon 阶段</div>
+            <div class="qc-big" style="font-size: 32px; margin-top: 8px;">通过</div>
+            <div class="qc-big-label">Gate Decision · 进入 Architect</div>
+            <div class="metric-row">
+              <span class="m-label">产出数量</span>
+              <span class="m-value" style="font-size: 14px;">9 份</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">核心主张锚定率</span>
+              <span class="m-value" style="font-size: 14px;">100%</span>
+            </div>
+            <div class="metric-row" style="border-bottom: none;">
+              <span class="m-label">互检机制</span>
+              <span class="m-value" style="font-size: 12px; color: var(--status-green);">有效运转</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- P0 放行门槛 -->
+        <h3 class="sub-section-title">P0 放行门槛 · 四道质量门 + 一道采纳度防线</h3>
+
+        <div class="mermaid-panel" style="margin-bottom: 28px;">
+          <div class="mermaid-title">P0 验收门槛路径</div>
+          <div class="mermaid-subtitle">五道门槛全部通过方可进入 P1</div>
+          <div class="mermaid-img-wrap">
+            <img src="assets/p0-acceptance-path.svg" alt="P0 验收门槛路径图" class="mermaid-img">
+          </div>
+        </div>
+
+        <div class="split-2">
+          <div class="mermaid-panel" style="margin-bottom: 0;">
+            <div class="mermaid-title" style="font-size: 15px;">四项运维 SLO</div>
+            <div class="mermaid-subtitle">安澜建议 · 作为「稳定」验收门槛</div>
+            <div class="slo-grid" style="grid-template-columns: 1fr 1fr;">
+              <div class="slo-item">
+                <div class="slo-name">核心 P99 响应时间</div>
+                <div class="slo-desc">上传 → 对账 → 差异生成全链路 P99 时延</div>
+              </div>
+              <div class="slo-item">
+                <div class="slo-name">对账成功率</div>
+                <div class="slo-desc">上传后成功完成对账的比例（排除数据问题）</div>
+              </div>
+              <div class="slo-item">
+                <div class="slo-name">上传失败率</div>
+                <div class="slo-desc">账单文件上传解析失败比例</div>
+              </div>
+              <div class="slo-item">
+                <div class="slo-name">数据一致性校验通过率</div>
+                <div class="slo-desc">定期对账结果与源数据一致性校验</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mermaid-panel" style="margin-bottom: 0;">
+            <div class="mermaid-title" style="font-size: 15px;">灰度验证窗口</div>
+            <div class="mermaid-subtitle">启明异议采纳 · 采纳度风险防线</div>
+            <div style="padding: 16px; background: var(--canvas); border: 1px solid var(--paper-line); border-radius: 2px; margin-top: 4px;">
+              <p style="font-family: 'Noto Sans SC', sans-serif; font-size: 13px; color: var(--ink-mid); line-height: 1.65; margin-bottom: 12px;">
+                先挑 <strong>5–10 家高频周结供应商</strong>，系统差异池结果与实操同学线下对账结果<strong>并行核验一轮</strong>再放量。
+              </p>
+              <p style="font-family: 'Noto Sans SC', sans-serif; font-size: 12px; color: var(--muted); line-height: 1.6;">
+                <strong>依据：</strong>结算同学曾因腾讯云体验差弃用线上对账，新系统重新赢回信任的窗口只有一次。若首次跑出的差异池与实操线下结果对不上，就是第二次弃用，大概率不可逆。优先级高于 bugfix。
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 09 推进计划 ============== -->
+  <section class="section" id="s9" data-screen-label="10">
+    <div class="section-header">
+      <div class="section-num">09 / 推进计划</div>
+      <div class="section-title-block">
+        <h2>五阶段推进路线图</h2>
+        <p class="lede">从 Align/Recon 已完成到 P2 专项深化，共五个阶段。当前处于 Architect 阶段待启动，4 组待决策项已完成门控裁决。先行修复（5 项 bugfix + 安全基线）已批准立即动手，不依赖外部样例。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+        <div class="phase-timeline">
+
+          <div class="phase-item completed">
+            <div class="phase-header">
+              <span class="p-name">阶段 0 · Align / Recon</span>
+              <span class="p-meta">需求对齐 + 全员源码侦察</span>
+              <span class="p-status done">已完成</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-milestone">九份专业产出全量到齐，门控通过</div>
+              <div class="phase-sub">
+                <h5>核心产出</h5>
+                <ul>
+                  <li>观澜：需求清单（9 痛点 + 5 硬约束 + 优先级 + 成功指标）</li>
+                  <li>经纬：源码技术侦察（15 模块现状 + 差距 + 8 项风险）</li>
+                  <li>清渠：数据侧输入（批量初始化方案 + 主数据口径 + AI 异议）</li>
+                  <li>承宇：全栈链路梳理（调用链 + 5 项补充发现 + 异议）</li>
+                  <li>安澜：集成部署侦察（安全合规 + 集成架构 + 运维基线）</li>
+                  <li>玉衡：质量门控（10/10 锚定属实 + 反指标 + 验收门槛）</li>
+                  <li>传薪：知识盘点（已有条目推送 + 新观察 + 版本化建议）</li>
+                  <li>启明：运营基线（进度/成本/质量/风险四仪表盘）</li>
+                </ul>
+              </div>
+              <div class="phase-dep">
+                <strong>门控结论：</strong>玉衡独立代码锚定复核 10/10 属实，阶段关闭，进入 Architect
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item current">
+            <div class="phase-header">
+              <span class="p-name">阶段 1 · Architect</span>
+              <span class="p-meta">Spec 设计 + 红蓝对抗</span>
+              <span class="p-status pending">待启动</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-milestone">经纬产出 Spec v1.0（12 项强制纳入）</div>
+              <div class="phase-sub">
+                <h5>Spec 强制纳入项（12 项）</h5>
+                <ul>
+                  <li>事务安全 + 巨型文件拆分（四 Service）+ 解析规则可配置化</li>
+                  <li>批量规则初始化工具（含校验机制：字段映射/金额/状态）</li>
+                  <li>差异处理审计留痕表设计（who/when/what/old/new/remark）</li>
+                  <li>勾稽公式占位（标注外部依赖：待真实差异案例）</li>
+                  <li>反指标基线 + P0 放行门槛（玉衡 3 项质量门槛）</li>
+                  <li>SLO 定义（安澜 4 项运维指标）+ 灰度验证窗口（启明）</li>
+                  <li>AP003 / 三必须引用（传薪）+ 5 项 Clarify 标注外部依赖</li>
+                  <li>会议硬约束（AI 对账暂缓 / 一对一优先 / 禁多对多 / 核心链路优先）</li>
+                </ul>
+              </div>
+              <div class="phase-sub">
+                <h5>红蓝对抗议程</h5>
+                <ul>
+                  <li>清渠 AI 辅助规则配置异议（清渠任红方，经纬指定蓝方）</li>
+                </ul>
+              </div>
+              <div class="phase-dep">
+                <strong>并行修复边界：</strong>承宇修业务逻辑层（service）；安澜修中间件/凭证/日志——两线文件不重叠
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item future">
+            <div class="phase-header">
+              <span class="p-name">阶段 2 · P0 开发与灰度</span>
+              <span class="p-meta">核心链路修复与加固</span>
+              <span class="p-status future">待 Spec</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-milestone">5 项 bugfix + 安全基线 + 差异留痕 + 灰度验证通过</div>
+              <div class="phase-sub">
+                <h5>先行 bugfix（不依赖外部样例 · 5 项）</h5>
+                <ul>
+                  <li>uploadBills DELETE + INSERT 包事务</li>
+                  <li>markReconciliationDifferences 多步 UPDATE 包事务</li>
+                  <li>审核拒绝回退 draft → reconciled</li>
+                  <li>差异编号竞态修复（PG sequence / FOR UPDATE）</li>
+                  <li>覆盖上传按 source 分片</li>
+                </ul>
+              </div>
+              <div class="phase-sub">
+                <h5>安全 / 部署基线先行（6 项）</h5>
+                <ul>
+                  <li>凭证轮换 + 环境变量化 · 日志脱敏 / 关闭 body</li>
+                  <li>全局 ValidationPipe + CORS + Helmet</li>
+                  <li>部署文档 + drizzle-kit 迁移管理 + 健康检查 + 监控告警方案</li>
+                </ul>
+              </div>
+              <div class="phase-sub">
+                <h5>等 Spec 后启动</h5>
+                <ul>
+                  <li>差异处理审计留痕表、审计日志基础设施</li>
+                  <li>200+ 供应商规则批量初始化工具</li>
+                  <li>核心链路端到端测试 + 四分类单测 + 并发安全测试</li>
+                  <li>灰度验证：5–10 家高频周结供应商并行核验</li>
+                </ul>
+              </div>
+              <div class="phase-dep">
+                <strong>外部依赖：</strong>账单样例 + 系统访问信息 + 流程图回传（R02 红色风险，阻塞 T9/T10/T11）
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item future">
+            <div class="phase-header">
+              <span class="p-name">阶段 3 · P1 集成</span>
+              <span class="p-meta">自动化归集与外部集成</span>
+              <span class="p-status future">待 P0 稳定</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-milestone">自动归集 + 发票关联 + 付款打通</div>
+              <div class="phase-sub">
+                <h5>核心交付</h5>
+                <ul>
+                  <li>账单自动归集：接口抓取 / 公共邮箱轮询 / 后台 RPA 下载</li>
+                  <li>发票自动抓取与账单关联（一对一优先 / 多对一可固化）</li>
+                  <li>付款自动触发分贝通对公提单</li>
+                  <li>供应商主数据同步机制（打通大表与新系统）</li>
+                </ul>
+              </div>
+              <div class="phase-dep">
+                <strong>前置依赖：</strong>P0 核心链路验证稳定（SLO 达标 + 灰度验证窗口通过）+ 外部集成架构设计
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item future">
+            <div class="phase-header">
+              <span class="p-name">阶段 4 · P2 专项</span>
+              <span class="p-meta">余额管理与深度能力</span>
+              <span class="p-status future">待专项评估</span>
+            </div>
+            <div class="phase-body">
+              <div class="phase-milestone">余额管理 + 留痕 + 存储 + AI 提效</div>
+              <div class="phase-sub">
+                <h5>核心交付</h5>
+                <ul>
+                  <li>供应商余额管理（预充值 / 后付费两类，另开专项会）</li>
+                  <li>沟通凭证上传留痕（第二层，待评估必要性）</li>
+                  <li>原始 Excel 存储逻辑（待审计要求确认）</li>
+                  <li>AI 辅助规则配置与智能对账（价值验证后重启）</li>
+                </ul>
+              </div>
+              <div class="phase-dep">
+                <strong>前置依赖：</strong>审计要求确认 + 余额管理专项会 + AI 价值验证
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 10 待办事项 ============== -->
+  <section class="section" id="s10" data-screen-label="11">
+    <div class="section-header">
+      <div class="section-num">10 / 待办事项</div>
+      <div class="section-title-block">
+        <h2>会后待办与责任分工</h2>
+        <p class="lede">按会议结论与门控裁决整理的 12 项待办清单。原素材中涉及「景韶春」的待办实际责任人均为刘卿志（因会议显示有误），已在本报告中统一更正。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+        <div class="overflow-x">
+          <table class="todo-table">
+            <thead>
+              <tr>
+                <th>编号</th>
+                <th>待办事项</th>
+                <th>责任人</th>
+                <th>依赖 / 阻塞</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="todo-id">T1</td>
+                <td class="todo-task">
+                  凭证轮换（飞书后台轮换 Secret + 改 process.env + 清理 zip 内 .env）
+                  <div class="todo-desc">飞书 App Secret 硬编码泄露属 CRITICAL 级安全事件，无论项目走向都必须轮换</div>
+                </td>
+                <td class="todo-owner">安澜</td>
+                <td class="todo-block">无</td>
+                <td style="color: var(--status-red); font-size: 12px; font-weight: 500;">🔴 待执行（今日闭环）</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T2</td>
+                <td class="todo-task">
+                  5 项纯 bugfix（事务 ×2 / 审核回退 / 编号竞态 / 覆盖分片）
+                  <div class="todo-desc">不依赖外部样例的纯逻辑修复，玉衡拆分批准，承宇先行执行</div>
+                </td>
+                <td class="todo-owner">承宇</td>
+                <td class="todo-block">无</td>
+                <td style="color: var(--status-amber); font-size: 12px; font-weight: 500;">🟡 已批准先行</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T3</td>
+                <td class="todo-task">
+                  安全 / 部署基线 6 项
+                  <div class="todo-desc">凭证环境变量化 + 日志策略 + ValidationPipe/CORS/Helmet + 部署文档 + 迁移管理 + 健康监控方案</div>
+                </td>
+                <td class="todo-owner">安澜</td>
+                <td class="todo-block">无</td>
+                <td style="color: var(--status-amber); font-size: 12px; font-weight: 500;">🟡 已批准先行</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T4</td>
+                <td class="todo-task">
+                  批量初始化模板字段结构草案
+                  <div class="todo-desc">基于现有 companyBillConfig / supplierBillConfig，仅字段映射草案、不含校验规则、标注草案</div>
+                </td>
+                <td class="todo-owner">清渠</td>
+                <td class="todo-block">无（仅映射草案）</td>
+                <td style="color: var(--status-amber); font-size: 12px; font-weight: 500;">🟡 已批准先行</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T5</td>
+                <td class="todo-task">
+                  implementation-solutions.md 提取上云盘 + 版本化
+                  <div class="todo-desc">修复根因知识仅存客户 zip 内单一 md，需提取版本化（呼应验收产物三必须）</div>
+                </td>
+                <td class="todo-owner">传薪</td>
+                <td class="todo-block">无</td>
+                <td style="color: var(--status-amber); font-size: 12px; font-weight: 500;">🟡 已批准 · P0 前置</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T6</td>
+                <td class="todo-task">
+                  Architect Spec v1.0 产出
+                  <div class="todo-desc">12 项强制纳入项 + 红蓝对抗 + Spec 产出后北辰 Approve 门控</div>
+                </td>
+                <td class="todo-owner">经纬</td>
+                <td class="todo-block">北辰拍板 + 红蓝对抗</td>
+                <td style="color: var(--muted); font-size: 12px; font-weight: 500;">⏳ 待启动</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T7</td>
+                <td class="todo-task">
+                  供应商数量口径盘点（大表 300+ vs 导入 700+）
+                  <div class="todo-desc">活跃数 vs 历史全量口径确认，拿到大表后清渠协同盘</div>
+                </td>
+                <td class="todo-owner">观澜 + 清渠</td>
+                <td class="todo-block">需大表</td>
+                <td style="color: var(--status-amber); font-size: 12px; font-weight: 500;">🟡 起草中</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T8</td>
+                <td class="todo-task">
+                  成功指标量化阈值
+                  <div class="todo-desc">对账准确率 / 时效 SLA / 规则覆盖率等可验收量化指标，需结算团队确认</div>
+                </td>
+                <td class="todo-owner">观澜</td>
+                <td class="todo-block">需结算团队确认</td>
+                <td style="color: var(--muted); font-size: 12px; font-weight: 500;">⏳ 外部依赖</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T9</td>
+                <td class="todo-task">
+                  资料对接：供应商账单样例 + 系统访问信息
+                  <div class="todo-desc">提供可代表通用情况的供应商账单、己方账单样例及系统访问信息，供开发团队核验功能逻辑与匹配规则</div>
+                </td>
+                <td class="todo-owner">刘卿志</td>
+                <td class="todo-block">阻塞项 · 无 SLA</td>
+                <td style="color: var(--status-red); font-size: 12px; font-weight: 500;">🔴 R02 · 待交付</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T10</td>
+                <td class="todo-task">
+                  流程图绘制 + AI 提效点识别
+                  <div class="todo-desc">会后查看系统 → 绘制供应商结算全流程标准流程图 → 逐一识别可由 AI 智能体提效的节点 → 与张艺团队开短会确认</div>
+                </td>
+                <td class="todo-owner">刘卿志</td>
+                <td class="todo-block">阻塞 T9/T10/T11</td>
+                <td style="color: var(--status-red); font-size: 12px; font-weight: 500;">🔴 R02 · 待启动</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T11</td>
+                <td class="todo-task">
+                  账单解析规则可配置化
+                  <div class="todo-desc">需样例验证格式多样性，将供应商数据行识别规则从硬编码提取为可配置规则</div>
+                </td>
+                <td class="todo-owner">承宇</td>
+                <td class="todo-block">阻塞于 R02（需账单样例）</td>
+                <td style="color: var(--status-red); font-size: 12px; font-weight: 500;">🔴 阻塞于 R02</td>
+              </tr>
+              <tr>
+                <td class="todo-id">T12</td>
+                <td class="todo-task">
+                  差异 → 应结算金额勾稽公式
+                  <div class="todo-desc">差异标签 → 应结算金额加减规则，需拿实操同学的真实差异案例对齐</div>
+                </td>
+                <td class="todo-owner">清渠</td>
+                <td class="todo-block">阻塞于 R02（需真实差异案例）</td>
+                <td style="color: var(--status-red); font-size: 12px; font-weight: 500;">🔴 阻塞于 R02</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="appendix-note" style="margin-top: 20px;">
+          <strong>责任人更正说明：</strong>本表第 T9、T10 项原为会议记录中显示的「景韶春·外部」责任人，经会后确认——所有涉及该待办的实际责任人均为<strong>刘卿志</strong>，系会议系统显示有误。本报告已统一更正。<br>
+          <strong>R02 红色风险：</strong>外部资料（账单样例 + 系统访问信息 + 流程图）无回传截止日期，阻塞 T9/T10/T11 及下游多条工作流，请尽快确定回传 SLA 并排 Architect 后续棒次。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 11 阶段裁决 ============== -->
+  <section class="section" id="s11" data-screen-label="12">
+    <div class="section-header">
+      <div class="section-num">11 / 阶段裁决</div>
+      <div class="section-title-block">
+        <h2>门控裁决、风险登记与异议汇总</h2>
+        <p class="lede">Align/Recon 阶段门控通过，阶段关闭。9 项待决策项已完成裁决，各角色 Architect 阶段分工已派发。5 项风险已登记，6 份报告关键异议已汇总记录。</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div></div>
+      <div class="col-body">
+
+        <div class="verdict-panel">
+          <div class="v-label">Gate Decision · 阶段门控裁决</div>
+          <h3>Align / Recon 阶段通过，进入 Architect</h3>
+          <p>五份核心产出 + 三份侧线产出 + 一份运营基线共九份材料全量到齐。玉衡独立代码锚定复核 10/10 属实、零失真零夸大；跨 Agent 互检纠出实质错误 1 处（经纬「审核拒绝不回退」→ 承宇纠正为「回退过头到 draft」→ 玉衡坐实），互检机制有效运转。阶段门控通过，进入 Architect 阶段。</p>
+        </div>
+
+        <h3 class="sub-section-title">九项待决策项裁决</h3>
+        <div class="decision-list">
+          <div class="decision-item">
+            <div class="di-num">01</div>
+            <div class="di-content">
+              <h5>凭证轮换（R01）</h5>
+              <p>立即执行，今日闭环。活凭证随 zip 泄露，无论项目走向都必须轮换。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">02</div>
+            <div class="di-content">
+              <h5>部署基线 6 项</h5>
+              <p>全部先行（安全 3 项 + 部署文档 / 迁移管理 / 健康监控方案）。审计日志基础设施设计等 Spec。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">03</div>
+            <div class="di-content">
+              <h5>承宇可先行清单</h5>
+              <p>按玉衡拆分批准：5 项纯 bugfix 先行；审计留痕表涉新表设计等 Spec，勿自行脑补。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">04</div>
+            <div class="di-content">
+              <h5>清渠批量初始化模板</h5>
+              <p>字段结构草案可先行（仅映射草案、不含校验规则、标注草案）；校验规则并入 Spec。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">05</div>
+            <div class="di-content">
+              <h5>AI 辅助配置异议</h5>
+              <p>纳入 Architect 红蓝对抗议程，清渠作红方准备立论（收益、风险可控边界、人工兜底）。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">06</div>
+            <div class="di-content">
+              <h5>反指标基线 + 验收门槛</h5>
+              <p>纳入 Spec 强制项，作为 P0 放行门控的量化依据（玉衡 3 项质量门槛 + 安澜 4 项 SLO）。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">07</div>
+            <div class="di-content">
+              <h5>AP003 / 验收产物三必须</h5>
+              <p>纳入 P0 验收门槛设计，Spec 引用（持久化 + 版本管理 + 非编写方独立复核）。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">08</div>
+            <div class="di-content">
+              <h5>修复知识版本化</h5>
+              <p>批准，P0 前置。implementation-solutions.md 提取上云盘 + 版本化管理（呼应三必须）。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">09</div>
+            <div class="di-content">
+              <h5>灰度验证窗口</h5>
+              <p>采纳。P0 验收门槛加入 5–10 家高频周结供应商系统差异池 vs 实操线下并行核验一轮再放量。</p>
+            </div>
+          </div>
+          <div class="decision-item">
+            <div class="di-num">10</div>
+            <div class="di-content">
+              <h5>并行修复边界</h5>
+              <p>承宇修业务逻辑层（service）；安澜修中间件/凭证/日志——两线文件不重叠，避免合并冲突。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 风险登记表 -->
+        <div class="risk-register">
+          <h4>风险登记表（5 项）</h4>
+          <div class="overflow-x">
+            <table class="rr-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>风险</th>
+                  <th>概率</th>
+                  <th>影响</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="rr-id">R01</td>
+                  <td style="font-weight: 500; color: var(--ink);">飞书 App Secret 活凭证随 zip 泄露，轮换决策未落地</td>
+                  <td>高</td>
+                  <td>高</td>
+                  <td style="color: var(--status-red); font-weight: 500; font-size: 12px;">🔴 待执行 · 今日闭环</td>
+                </tr>
+                <tr>
+                  <td class="rr-id">R02</td>
+                  <td style="font-weight: 500; color: var(--ink);">外部资料无截止时间，阻塞清渠/承宇/观澜后续工作流</td>
+                  <td>高</td>
+                  <td>高</td>
+                  <td style="color: var(--status-red); font-weight: 500; font-size: 12px;">🔴 无 SLA · 需定回传日期</td>
+                </tr>
+                <tr>
+                  <td class="rr-id">R03</td>
+                  <td style="font-weight: 500; color: var(--ink);">「验证稳定性」无量化基线，P0 → P1 放行凭感觉</td>
+                  <td>中</td>
+                  <td>高</td>
+                  <td style="color: var(--status-amber); font-weight: 500; font-size: 12px;">🟡 待 Architect 闭环</td>
+                </tr>
+                <tr>
+                  <td class="rr-id">R04</td>
+                  <td style="font-weight: 500; color: var(--ink);">供应商主数据口径不一致（大表 300+ vs 导入 700+）</td>
+                  <td>中</td>
+                  <td>中</td>
+                  <td style="color: var(--status-amber); font-weight: 500; font-size: 12px;">🟡 待闭环</td>
+                </tr>
+                <tr>
+                  <td class="rr-id">R05</td>
+                  <td style="font-weight: 500; color: var(--ink);">修复根因知识仅存客户 zip 内单一 md，无版本管理</td>
+                  <td>低</td>
+                  <td>高</td>
+                  <td style="color: var(--status-amber); font-weight: 500; font-size: 12px;">🟡 传薪已提方案</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 异议汇总 -->
+        <div class="dissent-panel">
+          <h4>关键异议汇总（团队铁律 · 每份报告各挑战一条）</h4>
+          <div class="dissent-grid">
+            <div class="dissent-item">
+              <div class="di-author">清渠 · 数据侧</div>
+              <p><strong>AI 辅助规则配置不应缓。</strong>AI 不参与对账决策暂缓无异议；但 AI 辅助规则配置（用样例账单反向推断字段映射、生成规则草稿、人只做确认）可显著压缩 30–50 小时人工配置，风险可控（错了有人工兜底，不进生产对账）。纳入红蓝对抗议程。</p>
+            </div>
+            <div class="dissent-item">
+              <div class="di-author">承宇 · 全栈侧</div>
+              <p><strong>200+ 供应商规则初始化瓶颈不在「配置」而在「验证」。</strong>即使人工逐个配，配错了也是静默产出错误差异——批量初始化的前置条件不是 AI 辅助，而是校验机制。建议 P0 先做配置校验，再谈批量工具或 AI 辅助。</p>
+            </div>
+            <div class="dissent-item">
+              <div class="di-author">安澜 · 集成部署</div>
+              <p><strong>「验证稳定性」未定义可验收基线。</strong>没有 SLA 指标（核心链路 P99 响应时间、对账成功率、上传失败率、数据一致性校验通过率）就无法判断何时算「稳定」、何时可推 P1。建议 P0 同步定义 3–5 项可量化运维 SLO。</p>
+            </div>
+            <div class="dissent-item">
+              <div class="di-author">玉衡 · 质量门控</div>
+              <p><strong>承宇/清渠可先行清单中 2 项涉新设计的应等 Spec。</strong>审计留痕表、批量校验规则这两项在无 Spec 下各自脑补表结构 = 必返工，且多 Agent 并行脑补会产生结构冲突。4 项纯 bugfix 可先行。已按拆分批准。</p>
+            </div>
+            <div class="dissent-item">
+              <div class="di-author">传薪 · 知识沉淀</div>
+              <p><strong>修复知识只存活在一份 zip 里，zip 丢失即灭失。</strong>implementation-solutions.md 是这套系统唯一的根因记录，在客户 zip 里、无版本管理、未与知识库关联。建议 P0 启动时提取上云盘 + 版本化。已批准。</p>
+            </div>
+            <div class="dissent-item">
+              <div class="di-author">启明 · 运营监控</div>
+              <p><strong>被弃用过一次的系统重新赢回信任窗口只有一次。</strong>如果 P0 验收门槛只测代码缺陷清零不测真实场景输出可信度，首次跑出的差异池与线下对不上就是第二次弃用。建议加入灰度验证窗口。已采纳。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 页脚 ============== -->
+  <footer class="report-footer">
+    <div class="footer-left">
+      <div class="footer-mark">K</div>
+      <span>供应商结算对账系统 · 共创会后汇报材料</span>
+    </div>
+    <div class="footer-right">
+      2026.08.18 · 北京分贝通科技有限公司
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
