@@ -1803,6 +1803,130 @@ body { padding-top: 48px; }
   letter-spacing: 0.03em;
 }
 
+.e2e-nodes.one { grid-template-columns: 1fr; }
+.e2e-nodes.two { grid-template-columns: repeat(2, 1fr); }
+
+.e2e-stage-status.defect {
+  background: rgba(184, 74, 63, 0.1);
+  color: var(--status-red);
+}
+
+/* =============== 状态机图 =============== */
+.sm-chain {
+  display: flex;
+  align-items: stretch;
+  min-width: 640px;
+}
+
+.sm-state {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 16px 10px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sm-state .en {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.sm-state .zh {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.sm-state.terminal {
+  border-color: var(--status-green);
+  background: rgba(74, 124, 89, 0.06);
+}
+
+.sm-state.terminal .en { color: var(--status-green); }
+
+.sm-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  flex: none;
+}
+
+.sm-link .cap {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+
+.sm-link .hshaft {
+  height: 2px;
+  width: 100%;
+  background: var(--ink-soft);
+  position: relative;
+}
+
+.sm-link .hshaft::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--ink-soft);
+}
+
+.sm-paths {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.sm-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px dashed;
+  border-radius: 2px;
+  padding: 10px 16px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  flex-wrap: wrap;
+}
+
+.sm-path .mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+}
+
+.sm-path.bad {
+  border-color: rgba(184, 74, 63, 0.55);
+  color: var(--status-red);
+  background: rgba(184, 74, 63, 0.05);
+}
+
+.sm-path.good {
+  border-color: rgba(74, 124, 89, 0.55);
+  color: var(--status-green);
+  background: rgba(74, 124, 89, 0.06);
+}
+
+@media (max-width: 900px) {
+  .e2e-nodes.two { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 900px) {
   .e2e-nodes,
   .e2e-nodes.four {
@@ -2357,30 +2481,236 @@ body { padding-top: 48px; }
         <!-- 主流程图 -->
         <div class="mermaid-panel">
           <div class="mermaid-title">对账业务完整调用链</div>
-          <div class="mermaid-subtitle">基于 code.zip 源码实际调用链梳理 · Mermaid flowchart TD</div>
-          <div class="mermaid-img-wrap">
-            <img src="assets/flowchart-call-chain.svg" alt="对账业务完整调用链流程图" class="mermaid-img">
+          <div class="mermaid-subtitle">基于 code.zip 源码实际调用链梳理 · 步骤 1 → 9 端到端</div>
+
+          <div class="e2e-pipeline">
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 1</span>
+                <span class="e2e-stage-name">账单上传</span>
+                <span class="e2e-stage-status partial">公司端 + 供应商端</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">账单上传解析 · UploadService</div>
+                  <div class="e2e-node-desc">Excel 双 Sheet（公司端 / 供应商端）解析 · 合并提交 · 模板校验</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 2</span>
+                <span class="e2e-stage-name">字段映射</span>
+                <span class="e2e-stage-status partial">按供应商规则</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">字段映射与清洗 · RulesService</div>
+                  <div class="e2e-node-desc">primaryKeyField / amountField / statusField 三字段动态映射 · 金额规范化</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 3</span>
+                <span class="e2e-stage-name">自动对账</span>
+                <span class="e2e-stage-status done">P0 核心 · 已实现</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">自动对账 · ReconcileEngineService.autoReconcile</div>
+                  <div class="e2e-node-desc">按 orderSn 匹配两端账单 · 金额容差默认 0.01</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">产出四分类结果</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 4</span>
+                <span class="e2e-stage-name">四分类差异</span>
+                <span class="e2e-stage-status done">markReconciliationDifferences</span>
+              </div>
+              <div class="e2e-nodes four">
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">核对一致</div>
+                  <div class="e2e-node-desc">diff = 0 · 清除差异标记</div>
+                  <span class="e2e-node-tag t-done">直通 confirmed 通道</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">金额不匹配</div>
+                  <div class="e2e-node-desc">over / short · 长款短款</div>
+                  <span class="e2e-node-tag t-part">入差异池</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">仅公司端</div>
+                  <div class="e2e-node-desc">company_only · 对方无记录</div>
+                  <span class="e2e-node-tag t-part">入差异池</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">仅供应商端</div>
+                  <div class="e2e-node-desc">supplier_only · 我方无记录</div>
+                  <span class="e2e-node-tag t-part">入差异池</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">一致直通 confirmed · 其余三类入池</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 5</span>
+                <span class="e2e-stage-name">差异池生成</span>
+                <span class="e2e-stage-status partial">待加固</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">差异池生成与编号 · DifferenceService</div>
+                  <div class="e2e-node-desc">差异编号 D{yy}{mm}{dd}{seq} · ⚠ SELECT COUNT 并发重号，需改 PG sequence</div>
+                  <span class="e2e-node-tag t-part">已实现 · 待加固</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">差异逐条检测闭环</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 6</span>
+                <span class="e2e-stage-name">对冲检测</span>
+                <span class="e2e-stage-status done">两种闭环路径</span>
+              </div>
+              <div class="e2e-nodes two">
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">跨期对冲检测 · 自动</div>
+                  <div class="e2e-node-desc">同 orderSn 跨周期净差异 = 0 → 自动标记 cross_period_offset</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">跨单对冲检测 · 半自动</div>
+                  <div class="e2e-node-desc">人工关联订单号 → 净差异 = 0 标记 cross_order_offset · 可取消</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">未对平差异</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 7</span>
+                <span class="e2e-stage-name">人工差异处理</span>
+                <span class="e2e-stage-status partial">待加固</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">人工差异处理 · markDifference</div>
+                  <div class="e2e-node-desc">差异标记与处理说明 · 逐条闭环</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">提交审核</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 8</span>
+                <span class="e2e-stage-name">审核</span>
+                <span class="e2e-stage-status defect">存在缺陷 · 已批准修复</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">审核 · auditReconciliation</div>
+                  <div class="e2e-node-desc">⚠ 拒绝时回退 draft 回退过头，整轮对账状态清零 · 应回退 reconciled</div>
+                  <span class="e2e-node-tag t-red">缺陷 · 纯 bugfix 立即修</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">审核通过</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">步骤 9</span>
+                <span class="e2e-stage-name">锁定</span>
+                <span class="e2e-stage-status done">已实现</span>
+              </div>
+              <div class="e2e-nodes one">
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">锁定 · lockReconciliations</div>
+                  <div class="e2e-node-desc">确认后锁定不可修改 · 进入结算下游</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+              </div>
+            </div>
+
           </div>
+
           <div class="legend-row">
-            <span class="legend-item">状态说明：完整 = 核心逻辑已实现；雏形 = 有基础需完善；空白 = 未实现或仅占位</span>
+            <span class="legend-item"><span class="legend-dot green"></span> 已实现</span>
+            <span class="legend-item"><span class="legend-dot amber"></span> 已实现 · 雏形 / 待加固</span>
+            <span class="legend-item"><span class="legend-dot red"></span> 存在缺陷 / 空白</span>
           </div>
         </div>
 
         <!-- 状态机图 -->
         <div class="mermaid-panel">
           <div class="mermaid-title">对账单状态机</div>
-          <div class="mermaid-subtitle">draft → reconciled → submitted → confirmed · Mermaid stateDiagram-v2</div>
-          <div class="mermaid-img-wrap">
-            <img src="assets/state-machine.svg" alt="对账单状态机图" class="mermaid-img">
-          </div>
-          <div class="figure-notes">
-            <div class="figure-note">
-              <h5>当前实现问题</h5>
-              <p>auditReconciliation 拒绝时 status 设为 draft 而非 reconciled——审核不通过对账状态直接退回草稿，等于整轮对账状态被清零。承宇纠正、玉衡锚定确认。</p>
+          <div class="mermaid-subtitle">draft → reconciled → submitted → confirmed · 含审核拒绝回退路径缺陷与修复方向</div>
+
+          <div class="overflow-x">
+            <div class="sm-chain">
+              <div class="sm-state">
+                <span class="en">draft</span>
+                <span class="zh">草稿 · 待对账</span>
+              </div>
+              <div class="sm-link">
+                <span class="cap">对账完成</span>
+                <div class="hshaft"></div>
+              </div>
+              <div class="sm-state">
+                <span class="en">reconciled</span>
+                <span class="zh">已对账 · 结果产出</span>
+              </div>
+              <div class="sm-link">
+                <span class="cap">提交审核</span>
+                <div class="hshaft"></div>
+              </div>
+              <div class="sm-state">
+                <span class="en">submitted</span>
+                <span class="zh">已提交 · 待审核</span>
+              </div>
+              <div class="sm-link">
+                <span class="cap">审核通过</span>
+                <div class="hshaft"></div>
+              </div>
+              <div class="sm-state terminal">
+                <span class="en">confirmed</span>
+                <span class="zh">已确认 · 锁定</span>
+              </div>
             </div>
-            <div class="figure-note">
-              <h5>修复方向</h5>
-              <p>拒绝时回退到 reconciled 状态（保留对账结果，仅退回审核前状态）。属纯 bugfix，已批准立即动手修复。</p>
+          </div>
+
+          <div class="sm-paths">
+            <div class="sm-path bad">
+              <span class="mono">submitted</span> → 审核拒绝 → <span class="mono">draft</span>
+              <span>⚠ 当前实现：回退过头，整轮对账状态被清零（承宇纠正、玉衡锚定确认）</span>
+            </div>
+            <div class="sm-path good">
+              <span class="mono">submitted</span> → 审核拒绝 → <span class="mono">reconciled</span>
+              <span>修复方向：保留对账结果，仅退回审核前状态（纯 bugfix，已批准立即修复）</span>
             </div>
           </div>
         </div>
@@ -2450,12 +2780,157 @@ body { padding-top: 48px; }
 
         <div class="mermaid-panel">
           <div class="mermaid-title">四层系统架构图</div>
-          <div class="mermaid-subtitle">前端层 → 后端层 → 暂缓模块层 → 基础设施层 · Mermaid flowchart TB</div>
-          <div class="mermaid-img-wrap">
-            <img src="assets/architecture-4layer.svg" alt="四层系统架构图" class="mermaid-img">
+          <div class="mermaid-subtitle">前端层 → 后端层 → 暂缓模块层 → 基础设施层 · 按模块完成度标注</div>
+
+          <div class="e2e-pipeline">
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">第一层</span>
+                <span class="e2e-stage-name">前端层</span>
+                <span class="e2e-stage-status done">全部已实现</span>
+              </div>
+              <div class="e2e-nodes">
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">React 19 + TypeScript</div>
+                  <div class="e2e-node-desc">前端框架与类型系统</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">Vite 7 + TailwindCSS 4</div>
+                  <div class="e2e-node-desc">构建工具与样式体系</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">Radix UI + xlsx 0.18</div>
+                  <div class="e2e-node-desc">无障碍组件库与 Excel 解析</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">REST API · Excel 上传</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">第二层</span>
+                <span class="e2e-stage-name">后端层</span>
+                <span class="e2e-stage-status partial">NestJS 10 + Drizzle ORM + PostgreSQL</span>
+              </div>
+              <div class="e2e-nodes">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">Upload Service</div>
+                  <div class="e2e-node-desc">账单解析与合并提交</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">ReconcileEngine Service</div>
+                  <div class="e2e-node-desc">自动对账与四分类引擎</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">Difference Service</div>
+                  <div class="e2e-node-desc">差异池与跨期 / 跨单对冲</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">Audit Service</div>
+                  <div class="e2e-node-desc">审核与锁定 · 拒绝回退缺陷</div>
+                  <span class="e2e-node-tag t-part">已实现 · 待加固</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">Rules Service</div>
+                  <div class="e2e-node-desc">供应商字段映射规则配置</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">Supplier Service</div>
+                  <div class="e2e-node-desc">供应商档案管理</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">暂缓模块预留 · 逐步启用</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">第三层</span>
+                <span class="e2e-stage-name">暂缓模块层</span>
+                <span class="e2e-stage-status partial">多数雏形 · 余额空白</span>
+              </div>
+              <div class="e2e-nodes">
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">发票</div>
+                  <div class="e2e-node-desc">发票 CRUD 雏形</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">付款</div>
+                  <div class="e2e-node-desc">付款 CRUD 雏形</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">银行流水</div>
+                  <div class="e2e-node-desc">流水归集与比对</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">余额</div>
+                  <div class="e2e-node-desc">预充值 / 后付费余额</div>
+                  <span class="e2e-node-tag t-red">当前完全空白</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">返利</div>
+                  <div class="e2e-node-desc">返利核算</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+                <div class="e2e-node s-part">
+                  <div class="e2e-node-title">AI对账</div>
+                  <div class="e2e-node-desc">智能匹配与差异解释</div>
+                  <span class="e2e-node-tag t-part">已实现 · 雏形</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="e2e-arrow"><div class="shaft"></div><div class="cap">外部系统集成</div><div class="head"></div></div>
+
+            <div class="e2e-stage">
+              <div class="e2e-stage-head">
+                <span class="e2e-stage-num">第四层</span>
+                <span class="e2e-stage-name">基础设施层</span>
+                <span class="e2e-stage-status partial">平台就绪 · 三个适配器空白</span>
+              </div>
+              <div class="e2e-nodes four">
+                <div class="e2e-node s-done">
+                  <div class="e2e-node-title">飞书 APAAS 平台</div>
+                  <div class="e2e-node-desc">部署运行时 · Lark fullstack 模板</div>
+                  <span class="e2e-node-tag t-done">已实现</span>
+                </div>
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">分贝通适配</div>
+                  <div class="e2e-node-desc">账单 / 付款接口对接</div>
+                  <span class="e2e-node-tag t-red">当前完全空白</span>
+                </div>
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">大象系统适配</div>
+                  <div class="e2e-node-desc">发票抓取与签收回填</div>
+                  <span class="e2e-node-tag t-red">当前完全空白</span>
+                </div>
+                <div class="e2e-node s-blank">
+                  <div class="e2e-node-title">邮箱 / RPA 适配</div>
+                  <div class="e2e-node-desc">供应商账单自动归集</div>
+                  <span class="e2e-node-tag t-red">当前完全空白</span>
+                </div>
+              </div>
+            </div>
+
           </div>
+
           <div class="legend-row">
-            <span class="legend-item">状态说明：完整 = 核心逻辑已实现；雏形 = 有基础需完善；空白 = 未实现或仅占位</span>
+            <span class="legend-item"><span class="legend-dot green"></span> 已实现</span>
+            <span class="legend-item"><span class="legend-dot amber"></span> 已实现 · 雏形 / 待加固</span>
+            <span class="legend-item"><span class="legend-dot red"></span> 存在缺陷 / 空白</span>
           </div>
         </div>
 
