@@ -1,142 +1,931 @@
-<!DOCTYPE html><html lang="zh"><head><script>(function(){
-  var needsPolyfill=(function(){
-    try{
-      if(typeof crypto==="undefined"||typeof crypto.randomUUID!=="function")return true;
-      if(typeof Object.hasOwn!=="function")return true;
-      if(typeof[].at!=="function")return true;
-      if(typeof[].findLast!=="function")return true;
-      return false;
-    }catch(e){return true}
-  })();
-  if(needsPolyfill){
-    document.write('<script src="/polyfills.js"><\/script>');
-  }
-})();</script><script>(function() {
-  var isModernBrowser = (function() {
-    try {
-      if (typeof CSS === 'undefined' || typeof CSS.supports !== 'function') return false;
-      if (!CSS.supports('selector(:has(*))')) return false;
-      if (!CSS.supports('color', 'color-mix(in srgb, red, blue)')) return false;
-      if (!CSS.supports('color', 'oklch(50% 0.1 0)')) return false;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  })();
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="creative-medium" content="visual-report">
+  <title>赛题拆解直播 · 可视化会议纪要（2026-09-21）</title>
+  <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* SVG 架构图辅助样式 */
+    .arch-svg svg text { font-family: var(--sans); }
+    .bx { fill: #FBF8EF; stroke: #D8CDB4; stroke-width: 1; }
+    .bx-teal { fill: #E1EDE6; stroke: #0F5F52; stroke-width: 1.5; }
+    .bx-paper { fill: #EDE4CF; stroke: #CFC3A8; stroke-width: 1; }
+    .bx-red { fill: #F5E4D8; stroke: #B5451D; stroke-width: 1.2; }
+    .bx-dash { fill: #FBF8EF; stroke: #8B968F; stroke-width: 1; stroke-dasharray: 4 3; }
+    .t-title { font-size: 14px; font-weight: 700; fill: #22312C; }
+    .t-title-teal { font-size: 14px; font-weight: 700; fill: #0A473D; }
+    .t-title-red { font-size: 14px; font-weight: 700; fill: #B5451D; }
+    .t-sub { font-size: 12px; fill: #5C6B64; }
+    .t-kicker { font-size: 11.5px; font-weight: 700; letter-spacing: 0.22em; fill: #B5451D; }
+    .ln { stroke: #B5451D; stroke-width: 1.4; fill: none; }
+    .ln-soft { stroke: #8B968F; stroke-width: 1.2; fill: none; stroke-dasharray: 4 3; }
+  </style>
+</head>
+<body>
 
-  var cssUrls = ["/assets/index-CsViVDe4.css"];
-  var suffix = isModernBrowser ? '' : '.legacy';
+  <!-- ==================== 顶部导航 ==================== -->
+  <nav class="topnav">
+    <div class="topnav-inner">
+      <div class="topnav-title">赛题拆解直播 · 可视化纪要</div>
+      <div class="topnav-links">
+        <a href="#overview">概览</a>
+        <a href="#threads">议题主线</a>
+        <a href="#timeline">章节时间线</a>
+        <a href="#arch">方案架构</a>
+        <a href="#todo">待办清单</a>
+        <a href="#quotes">发言金句</a>
+        <a href="#mining">需求与决策</a>
+        <a href="#clarify">待澄清</a>
+      </div>
+    </div>
+  </nav>
 
-  cssUrls.forEach(function(url) {
-    var finalUrl = url.replace(/\.css$/, suffix + '.css');
-    document.write('<link rel="stylesheet" href="' + finalUrl + '">');
-  });
-})();</script><noscript><link rel="stylesheet" href="/assets/index-CsViVDe4.css"></noscript><script>window.csrfToken = "{{csrfToken}}";
-        window.userId = "{{userId}}";
-        window.tenantId = "{{tenantId}}";
-        window.appId = "{{appId}}";
-        window.ENVIRONMENT = "{{environment}}";
-        const appInfo = {
-          name: "{{appName}}",
-          avatar: "{{{appAvatar}}}",
-          description: "{{appDescription}}",
-        };
-        if (appInfo.name) {
-          window._appInfo = appInfo;
-        }
-        window.__BASENAME__ = "{{basename}}";</script><script>(function(g){
-  if(!window[g]){var q=[];window[g]=function(){q.push([].slice.call(arguments));};window[g].q=q;}
-  window.__slardarErrBuf=window.__slardarErrBuf||[];
-  var ref=document.referrer||'';
-  function _cap(err){
-    if(window[g]&&!window[g].q){
-      window[g]('captureException',err instanceof Error?err:new Error(String(err)),{source:'runtime-error',referrer:ref});
-    }else{
-      (window.__slardarErrBuf=window.__slardarErrBuf||[]).push(err);
-    }
-  }
-  window.addEventListener('error',function(e){
-    if(e.error==null&&e.target instanceof Element){
-      var t=e.target,url=t.src||t.href||'';
-      if(url)window[g]('captureException',new Error('Resource load failed: '+url),{team:'miaoda-sdk',source:'resource-error',resourceType:t.tagName.toLowerCase(),resourceUrl:url,referrer:ref});
-      return;
-    }
-    if(e.error!=null){
-      var err=e.error;
-      if(e.filename&&typeof err.stack==='string'&&err.stack.indexOf(e.filename)<0){
-        try{err.stack+='\n    at '+e.filename+':'+(e.lineno||0)+':'+(e.colno||0);}catch(ex){}
-      }
-      _cap(err);
-    }else{
-      var msg=e.message||'Script error';
-      var err=new Error(msg);
-      if(e.filename)err.stack=msg+'\n    at '+e.filename+':'+(e.lineno||0)+':'+(e.colno||0);
-      _cap(err);
-    }
-  },true);
-  window.addEventListener('unhandledrejection',function(e){
-    if(e.reason!=null)_cap(e.reason instanceof Error?e.reason:new Error(String(e.reason)));
-  });
-})('KSlardarWeb');</script><script>const slardarScript = document.createElement('script');
-    slardarScript.src = 'https://lf3-short.ibytedapm.com/slardar/fe/sdk-web/browser.cn.js?bid=apaas_miaoda&globalName=KSlardarWeb';
-    slardarScript.crossOrigin = 'anonymous';
+  <div class="wrap">
 
-    // Add onload event handler
-    slardarScript.onload = function() {
-      // Initialize after script loads
-      if (window.KSlardarWeb) {
-        window.KSlardarWeb('context.merge', {
-          tenantId: window.tenantId ?? '',
-          appId: window.appId ?? '',
-          referrer: document.referrer || '',
-        });
-        window.KSlardarWeb('init', {
-          bid: 'apaas_miaoda',
-          env: window.ENVIRONMENT || 'online',
-          userId: window.userId ?? '',
-        });
-        window.KSlardarWeb('start');
-        // Flush JS runtime errors that occurred before SDK loaded
-        var buf = window.__slardarErrBuf || [];
-        window.__slardarErrBuf = [];
-        buf.forEach(function(err) {
-          window.KSlardarWeb('captureException', err instanceof Error ? err : new Error(String(err)), { source: 'pre-sdk-error', referrer: document.referrer || '' });
-        });
-      }
-    };
+    <!-- ==================== 封面 ==================== -->
+    <header class="hero" id="top">
+      <div class="hero-kicker">
+        <div class="rule"></div>
+        <span>MEETING MINUTES · 2026-09-21</span>
+      </div>
+      <div class="hero-head">
+        <div>
+          <h1 class="hero-title">安克首届黑客松<em>「赛题拆解」</em>直播<br>可视化会议纪要</h1>
+          <p class="hero-sub">「通往 AGI 之路」社区 × 安克（Anker）联合举办的教学直播：四大赛道逐一开箱，独立开发者现场示范从 0 到 1 的 AI 客服 Demo，赛事方讲透预赛提交口径。本纪要供赛后回顾与对外分享。</p>
+        </div>
+        <div class="seal" aria-hidden="true">
+          <div class="s1">纪要</div>
+          <div class="s2">2026 · 09 · 21</div>
+        </div>
+      </div>
 
-    // Add error handler
-    slardarScript.onerror = function() {
-      console.warn('Failed to load Slardar script');
-    };
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-k">会议时间</div><div class="meta-v"><span class="mono">2026-09-21（周一）20:02 – 21:43</span> · 约 100 分钟</div></div>
+        <div class="meta-cell"><div class="meta-k">会议形态</div><div class="meta-v">线上直播 · 飞书会议 + 视频号「通往 AGI 之路」</div></div>
+        <div class="meta-cell"><div class="meta-k">主办方</div><div class="meta-v">「通往 AGI 之路」社区 × 安克（Anker）</div></div>
+        <div class="meta-cell"><div class="meta-k">会议性质</div><div class="meta-v">赛题拆解 · Demo 教学 · 资源开箱</div></div>
+        <div class="meta-cell"><div class="meta-k">纪要整理</div><div class="meta-v">刘卿志（基于全程字幕与逐轮增量分析）</div></div>
+        <div class="meta-cell"><div class="meta-k">记录来源</div><div class="meta-v">会议字幕 866 条 + 逐轮增量分析</div></div>
+        <div class="meta-cell"><div class="meta-k">参会发声</div><div class="meta-v">9 位（主持人及 8 位嘉宾 / 赛道负责人 / 赛事方）</div></div>
+        <div class="meta-cell"><div class="meta-k">交付状态</div><div class="meta-v">对外可分享 · 发言人归属已按语义核实</div></div>
+      </div>
 
-    // Add script to page
-    document.head.appendChild(slardarScript);</script><script src="https://sf3-scmcdn-cn.feishucdn.com/obj/unpkg/byted/performance/0.1.2/dist/performance.iife.js" crossorigin="anonymous" defer="defer"></script><script>(function (win, export_obj) {
-    win['LogAnalyticsObject'] = export_obj;
-    if (!win[export_obj]) {
-      function _collect() {
-        _collect.q.push(arguments);
-      }
-      _collect.q = _collect.q || [];
-      win[export_obj] = _collect;
-    }
-    win[export_obj].l = +new Date();
-  })(window, 'collectEvent');
+      <div class="stat-row">
+        <div class="stat"><div class="num">4</div><div class="lbl">大赛赛道<br>（录音 / 安防 / 储能 / 服务）</div></div>
+        <div class="stat"><div class="num">30<small> 组</small></div><div class="lbl">晋级深圳线下决赛<br>24 小时现场开发</div></div>
+        <div class="stat"><div class="num">¥18<small> 万</small></div><div class="lbl">总奖池<br>TOP 3 万 / 1 万 / 5 千</div></div>
+        <div class="stat hot"><div class="num">6<small> 天</small></div><div class="lbl">报名倒计时<br>（直播当日口径，9-27 截止）</div></div>
+        <div class="stat"><div class="num">9<small> 位</small></div><div class="lbl">发言嘉宾<br>含四赛道负责人</div></div>
+      </div>
+    </header>
 
-  // Create tea sdk script element
-    const teaScript = document.createElement('script');
-    teaScript.src = 'https://lf3-cdn-tos.bytescm.com/obj/static/log-sdk/collect/5.1/collect.js';
-    teaScript.crossOrigin = 'anonymous';
-    teaScript.async = true;
+    <!-- ==================== 壹 · 会议概览 ==================== -->
+    <section class="chapter" id="overview">
+      <div class="ch-head">
+        <div class="ch-seal">壹</div>
+        <div>
+          <div class="ch-title">会议概览</div>
+          <div class="ch-en">OVERVIEW</div>
+        </div>
+      </div>
+      <p class="ch-lede">本场直播是安克首届黑客松的<strong>赛题拆解专场</strong>：先讲清赛事机制与资源保障，再用一个完整 Demo 示范「从 0 跑起来」，最后由四大赛道负责人逐一开箱硬件、SDK 与数据材料。</p>
 
-    // Add error handler
-    teaScript.onerror = function() {
-      console.warn('Failed to load Tea script');
-    };
+      <div class="ov-grid">
+        <div class="ov-narrative">
+          <p><strong>赛事全貌。</strong>安克首届黑客松与智能硬件深度结合，口号「让创造发声，让世界看见」。设智能录音、智能安防、充电储能、智能服务四大赛道，共 30 组晋级 10 月 16–17 日深圳线下决赛，进行 24 小时现场开发。报名自 9 月 7 日开始，<strong>预赛材料 9 月 27 日截止提交，9 月 30 日公布预赛结果</strong>；奖池总额 18 万元，另设「金点子奖」，优秀选手可直通终面并进入高潜人才池。</p>
+          <p><strong>主体环节。</strong>独立开发者罗磊示范「用 AI 做适合自己业务的客服系统」——半天 vibe coding 出真实 Web 应用，覆盖文本报修、型号简称识别、图片识别与情绪感知转人工三个场景，并复盘开发四步法；安克 Star 介绍大模型 key、AWS 云资源、阿里百炼研发平台等通用支持；四大赛道负责人（Ricky、Terry 与 Max、安迪、茱莉亚）依次开箱各赛道的硬件、SDK、模拟器与业务数据；赛事方莹莹最后讲解 10 月线下活动安排与预赛材料差异化五要点。</p>
+          <p><strong>口径价值。</strong>全场信息密度高且口径明确：作品交付形态（云端部署 + 可点击链接）、人机分工红线（涉钱分级转人）、AI-first 开发工作流（SDK 与文档直接交给 AI）、评测与验收设计（真实客诉评测集、模拟赛反复跑）等均给出可直接执行的口径，整理于「需求与决策挖掘」一节。</p>
+        </div>
+        <div class="roster">
+          <h3>发言角色名录</h3>
+          <div class="roster-item"><div class="roster-name">主持人</div><div class="roster-role"><span class="tag">主持</span>「通往 AGI 之路」社区 · 赛事总览与全场串场</div></div>
+          <div class="roster-item"><div class="roster-name">罗磊</div><div class="roster-role"><span class="tag">嘉宾</span>独立开发者 · 10 年大厂经验（QQ阅读 / 起点中文网）· AI 客服系统示范</div></div>
+          <div class="roster-item"><div class="roster-name">Star</div><div class="roster-role"><span class="tag">嘉宾</span>安克 IT / 研发总监 · 赛事通用资源保障</div></div>
+          <div class="roster-item"><div class="roster-name">Ricky</div><div class="roster-role"><span class="tag">赛道一</span>安克影音软件产品经理 · 智能录音赛道</div></div>
+          <div class="roster-item"><div class="roster-name">Terry</div><div class="roster-role"><span class="tag">赛道二</span>安克 eufy 高级 APP 开发工程师 · 智能安防赛道</div></div>
+          <div class="roster-item"><div class="roster-name">Max</div><div class="roster-role"><span class="tag">赛道二</span>安克 Web SDK 工程师 · 安防 Web 端演示</div></div>
+          <div class="roster-item"><div class="roster-name">安迪</div><div class="roster-role"><span class="tag">赛道三</span>安克充电储能应用软件负责人 · 充电储能赛道</div></div>
+          <div class="roster-item"><div class="roster-name">茱莉亚</div><div class="roster-role"><span class="tag">赛道四</span>安克服务运营主管 · 智能服务赛道</div></div>
+          <div class="roster-item"><div class="roster-name">莹莹</div><div class="roster-role"><span class="tag">赛事方</span>赛事方老师 · 权益重申与预赛提交指引</div></div>
+        </div>
+      </div>
+    </section>
 
-    // Add script to page
-    document.head.appendChild(teaScript);</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="{{appAvatar}}"><title>{{appName}}</title><script>try {
-      window.__platform__ = JSON.parse('{{{__platform__}}}');
-    } catch (e) {
-      console.error('Failed to parse __platform__', e);
-    }</script><script type="module" crossorigin src="/assets/index-EGnzCaED.js"></script><meta property="og:title" content="{{appName}}"><meta property="og:description" content="{{appDescription}}"><meta property="og:image" content="{{appAvatar}}"><meta property="og:url" content="{{currentUrl}}"><meta name="description" content="{{appDescription}}"></head><body><div id="root"></div></body></html>
+    <!-- ==================== 贰 · 议题主线 ==================== -->
+    <section class="chapter" id="threads">
+      <div class="ch-head">
+        <div class="ch-seal">贰</div>
+        <div>
+          <div class="ch-title">议题主线</div>
+          <div class="ch-en">KEY THREADS</div>
+        </div>
+      </div>
+      <p class="ch-lede">整场直播沿四条主线推进，彼此衔接：机制定节奏，资源定下限，命题定方向，方法论定打法。</p>
+
+      <div class="thread">
+        <div class="thread-k">
+          <div class="no">THREAD 01</div>
+          <div class="name">赛事机制线</div>
+          <div class="note">从报名到返场的完整链路，全部时间节点均有官方口径</div>
+        </div>
+        <div>
+          <div class="flow">
+            <span class="step">报名开启（9-07）</span><span class="arr">→</span>
+            <span class="step plain">预赛材料提交 · 9-27 截止</span><span class="arr">→</span>
+            <span class="step plain">预赛结果公布（9-30）</span><span class="arr">→</span>
+            <span class="step">线下决赛 · 深圳 10-16/17 · 24 小时开发</span><span class="arr">→</span>
+            <span class="step plain">技术开放日（10-17）</span><span class="arr">→</span>
+            <span class="step plain">获奖选手返场交流（10-26）</span>
+          </div>
+          <p class="thread-desc">每赛道评冠亚季（3 万 / 1 万 / 5 千）+ 金点子奖；成长激励含直通终面、SSP offer 保留机会与安克高潜人才池；产品线对接与商业化感知被讲师称为「最看重」的收益。</p>
+        </div>
+      </div>
+
+      <div class="thread">
+        <div class="thread-k">
+          <div class="no">THREAD 02</div>
+          <div class="name">资源保障线</div>
+          <div class="note">官方把接入门槛打平，选手比拼点收束到场景洞察 × AI 编排</div>
+        </div>
+        <div>
+          <div class="flow">
+            <span class="step">大模型 key（推理 / 多模态 / 语音 / 文生图）</span><span class="arr">→</span>
+            <span class="step">云资源（每队一个 AWS 账号）</span><span class="arr">→</span>
+            <span class="step">研发平台（阿里百炼 Agent 托管）</span><span class="arr">→</span>
+            <span class="step">赛道 SDK · 设备 · 数据集</span><span class="arr">→</span>
+            <span class="step plain">比赛当天安克技术 + AWS 全天驻场</span>
+          </div>
+          <p class="thread-desc">资源全部非强制，可用自己习惯的工具；key 与使用 SOP 赛前统一下发，并提前几天开放试用；资源缺口在赛事群反馈协调。</p>
+        </div>
+      </div>
+
+      <div class="thread">
+        <div class="thread-k">
+          <div class="no">THREAD 03</div>
+          <div class="name">四赛道命题线</div>
+          <div class="note">官方给感知层与基建，创新空间在决策与行动层</div>
+        </div>
+        <div>
+          <div class="flow">
+            <span class="step">智能录音 · 录音豆 SDK「5 分钟跑通」</span>
+            <span class="step">智能安防 · 命题「看见，然后做到」</span>
+            <span class="step">充电储能 · 模拟器 + HA + 算法赛</span>
+            <span class="step">智能服务 · 真实客诉材料作官方评测集</span>
+          </div>
+          <p class="thread-desc">录音与安防赛道现场领取预绑定硬件；储能赛道以云端模拟器替代真机；服务赛道提供售后流程图、脱敏订单、经销商清单、产品知识库等业务资产。</p>
+        </div>
+      </div>
+
+      <div class="thread">
+        <div class="thread-k">
+          <div class="no">THREAD 04</div>
+          <div class="name">参赛方法论线</div>
+          <div class="note">多位讲师反复强调的打法，可直接作为参赛节奏</div>
+        </div>
+        <div>
+          <div class="flow">
+            <span class="step">拆业务 SOP</span><span class="arr">→</span>
+            <span class="step">30 分钟量级 MVP 起手</span><span class="arr">→</span>
+            <span class="step">喂内部文档</span><span class="arr">→</span>
+            <span class="step">渐进加场景</span><span class="arr">→</span>
+            <span class="step">computer use 接自有系统</span>
+          </div>
+          <p class="thread-desc">配套三条原则：涉钱 / 退款 / 客诉问题按规则分级转人决策；演示结论必须有事实依据支撑、成功路径一步步讲清；特殊需求「提前暴露风险、提前反馈」，资源争取窗口在赛前。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 叁 · 章节时间线 ==================== -->
+    <section class="chapter" id="timeline">
+      <div class="ch-head">
+        <div class="ch-seal">叁</div>
+        <div>
+          <div class="ch-title">章节时间线</div>
+          <div class="ch-en">SESSION TIMELINE</div>
+        </div>
+      </div>
+      <p class="ch-lede">全程 10 个环节，时间戳取自会议字幕，可回放定位。</p>
+
+      <div class="tl">
+        <div class="tl-item major">
+          <div class="tl-time">20:03<span class="dur">约 9 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">开场与赛事总览</div>
+            <div class="tl-meta"><span class="tag">主持</span><span class="tag mono">20:03 – 20:12</span></div>
+            <p class="tl-desc">组队与入群指引（飞书群招募队友、赛事工作台）；赛事全貌：官网 v2eji.com、决赛 10-16/17 深圳 24 小时开发、四大赛道与 30 组晋级名额、18 万奖池与成长激励；报名 9-27 截止、9-30 公布预赛结果。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">20:12<span class="dur">约 16 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">嘉宾示范：用 AI 做适合自己业务的客服系统</div>
+            <div class="tl-meta"><span class="tag">嘉宾 · 罗磊</span><span class="tag mono">20:12 – 20:28</span></div>
+            <p class="tl-desc">三个场景 Demo：文本报修（问型号 → 序列号 → 查保内保外 → 自动化处理）、型号简称识别（先查产品库确认品类）、图片识别 + 情绪感知（识图判断产品，客户不耐烦时自动转人工）；开发四步复盘（MVP 起手 → 喂内部文档 → 进阶迭代 → computer use 接自有系统）；客服红线原则：涉钱 / 退款 / 客诉分级转人，七八成场景 AI 可处理。</p>
+          </div>
+        </div>
+        <div class="tl-item minor">
+          <div class="tl-time">20:28<span class="dur">约 1 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">福袋互动</div>
+            <div class="tl-meta"><span class="tag">主持</span><span class="tag mono">20:28 – 20:29</span></div>
+            <p class="tl-desc">视频号「通往 AGI 之路」左上角福袋送安克小礼品，参与者打口号「让创造发声，让世界看见」。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">20:29<span class="dur">约 5 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">赛事通用资源介绍</div>
+            <div class="tl-meta"><span class="tag">嘉宾 · Star（安克 IT / 研发总监）</span><span class="tag mono">20:29 – 20:34</span></div>
+            <p class="tl-desc">资源四块：大模型（每位选手发模型 key，覆盖推理 / 多模态 / 语音 / 文生图）、云资源（每队一个 AWS 账号，交付时部署云端并提供二维码或可点击链接）、研发平台（阿里百炼 manager agent 托管）+ 各赛道专用 SDK / 设备 / 数据集；资源非强制，缺口在赛事群反馈。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">20:35<span class="dur">约 7 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">赛道一 · 智能录音</div>
+            <div class="tl-meta"><span class="tag">赛道一 · Ricky</span><span class="tag mono">20:35 – 20:42</span></div>
+            <p class="tl-desc">Soundcore 录音豆 + SDK 开箱：硬件脏活全包（初始化 / 连接 / 边录边传 / 长录音回传），「5 分钟跑通设备流程」；Demo「童言童话」：家长对录音豆说一句话 → 大模型生成童话 → 文生图产出定制绘本；发散方向：长录音变纪要、狼人杀发言复盘、白板拍照多模态融合；规则：API key 不外传、SDK 按规定使用、现场完成全流程开发。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">20:43<span class="dur">约 20 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">赛道二 · 智能安防</div>
+            <div class="tl-meta"><span class="tag">赛道二 · Terry &amp; Max</span><span class="tag mono">20:43 – 21:03</span></div>
+            <p class="tl-desc">命题「看见，然后做到」：24 小时内用 Android / iOS / Web 任一端 SDK + AI 能力落地完整业务方案；两款硬件（E30 Solo 云台机、双摄电池门铃）现场领取并预绑定账号；KMP 跨端空白工程开箱即编译；Demo「安心分析问答」（意图识别 → 数据提取 → 校验 → 多模态理解 → 汇总播报）与「自动安全日报」；Max 演示 Web SDK 最短路径：抓帧转 blob → 一次调用问大模型「过去发生了什么」；演示要求结论有事实依据支撑。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">21:04<span class="dur">约 16 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">赛道三 · 充电储能</div>
+            <div class="tl-meta"><span class="tag">赛道三 · 安迪</span><span class="tag mono">21:04 – 21:20</span></div>
+            <p class="tl-desc">无真机环境，提供云端模拟器三件套：EC2 环境机模拟三台独立储能设备（光伏 / 负载 / 电池 / 分时电价 / 天气）+ 开源 Home Assistant 与官方插件 + 100 站点 × 90 天小时级训练数据集；选手写任意语言调度程序经 HA 标准接口控制充放电；赛制：7 天仿真 × 180 倍加速 ≈ 56 分钟，模拟赛可反复跑、正式赛只跑一次；评比 = 三站点平均节省比例 + 讲清算法逻辑 + 看板 / 可解释性加分。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">21:21<span class="dur">约 7 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">赛道四 · 智能服务</div>
+            <div class="tl-meta"><span class="tag">赛道四 · 茱莉亚</span><span class="tag mono">21:21 – 21:28</span></div>
+            <p class="tl-desc">承接罗磊客服 Demo，讲业务侧五方面资源：①售后流程图（多意图通用处理，用于 agent 编排与转人工节点设计）②脱敏订单 Excel（质保 / 物流字段）③授权经销商服务清单 ④真实客诉材料（原始邮件 + 图片 / 截图 / 视频附件，用作官方评测集）⑤产品知识库（型号 · Q&amp;A · 排查方案）；工具用阿里云百炼（配小白友好 SOP）或自选平台；换货 / 退款单环节不开放内部真实接口，给出三种替代方案。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">21:28<span class="dur">约 9 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">后续安排与预赛提交指引</div>
+            <div class="tl-meta"><span class="tag">赛事方 · 莹莹</span><span class="tag mono">21:28 – 21:37</span></div>
+            <p class="tl-desc">权益重申（每赛道冠亚季 + 金点子奖 + 直通终面）；选手中心统一承接赛事信息 / 找队友 / FAQ；10-16 主赛场三场 workshop（安克产研产品拆解、腾讯 Workbuddy Jason 的 AI 硬件创客思维、线性资本投资人视角）；10-17 技术开放日（安克大楼一楼，明星产品体验 + AWS / 火山引擎 / 腾讯云参展）；预赛提醒：系统校验全员报名状态，务必保证所有组员已报名；预赛材料差异化五要点逐一讲解。</p>
+          </div>
+        </div>
+        <div class="tl-item major">
+          <div class="tl-time">21:37<span class="dur">约 6 分钟</span></div>
+          <div class="tl-body">
+            <div class="tl-title">收尾与资源索引</div>
+            <div class="tl-meta"><span class="tag">主持</span><span class="tag mono">21:37 – 21:43</span></div>
+            <p class="tl-desc">回放与 demo 材料统一上传选手中心工作台；招募大厅可开团组队；官网与报名入口再次展示；中奖观众留收货地址；预告线下见面。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 肆 · 方案架构图 ==================== -->
+    <section class="chapter" id="arch">
+      <div class="ch-head">
+        <div class="ch-seal">肆</div>
+        <div>
+          <div class="ch-title">方案架构图</div>
+          <div class="ch-en">ARCHITECTURE DIAGRAMS</div>
+        </div>
+      </div>
+      <p class="ch-lede">五套方案的架构均取自讲员投屏讲解的原话口径，箭头表示数据或指令流向；虚线框为边界与约束说明。</p>
+
+      <!-- 图 1 · 罗磊 AI 客服系统 -->
+      <div class="arch-card">
+        <div class="arch-head">
+          <span class="t">示范方案 · 用 AI 做适合自己业务的客服系统</span>
+          <span class="src">罗磊 · 20:12 – 20:28 · 半天 vibe coding 出的真实 Web 应用</span>
+        </div>
+        <div class="arch-svg">
+          <svg viewBox="0 0 960 396" role="img" aria-label="罗磊 AI 客服系统架构图">
+            <defs>
+              <marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#B5451D"></path>
+              </marker>
+            </defs>
+            <text x="20" y="24" class="t-kicker">运行架构 · 三个示范场景</text>
+            <rect x="20" y="40" width="180" height="100" rx="6" class="bx"></rect>
+            <text x="110" y="68" text-anchor="middle" class="t-title">客户提问</text>
+            <text x="110" y="90" text-anchor="middle" class="t-sub">文本报修 / 型号简称</text>
+            <text x="110" y="108" text-anchor="middle" class="t-sub">图片 + 情绪信号</text>
+            <line x1="200" y1="90" x2="238" y2="90" class="ln" marker-end="url(#ar1)"></line>
+            <rect x="240" y="40" width="300" height="100" rx="6" class="bx-teal"></rect>
+            <text x="390" y="66" text-anchor="middle" class="t-title-teal">AI 客服 Agent</text>
+            <text x="390" y="88" text-anchor="middle" class="t-sub">识图判断产品 · 产品库型号确认</text>
+            <text x="390" y="106" text-anchor="middle" class="t-sub">订单与质保查询 · 内部知识库检索</text>
+            <text x="390" y="124" text-anchor="middle" class="t-sub">情绪感知 → 自动转人工</text>
+            <line x1="540" y1="90" x2="578" y2="90" class="ln" marker-end="url(#ar1)"></line>
+            <rect x="580" y="40" width="170" height="100" rx="6" class="bx"></rect>
+            <text x="665" y="68" text-anchor="middle" class="t-title">内部系统查询</text>
+            <text x="665" y="90" text-anchor="middle" class="t-sub">保内保外判定 · 订单信息</text>
+            <text x="665" y="108" text-anchor="middle" class="t-sub">说明书 / 知识库</text>
+            <text x="665" y="126" text-anchor="middle" class="t-sub">（computer use 接入）</text>
+            <line x1="750" y1="90" x2="788" y2="90" class="ln" marker-end="url(#ar1)"></line>
+            <rect x="790" y="40" width="150" height="100" rx="6" class="bx"></rect>
+            <text x="865" y="68" text-anchor="middle" class="t-title">工单系统</text>
+            <text x="865" y="90" text-anchor="middle" class="t-sub">左侧 chat box 对话</text>
+            <text x="865" y="108" text-anchor="middle" class="t-sub">右侧工单流转</text>
+            <text x="865" y="126" text-anchor="middle" class="t-sub">自动化处理</text>
+
+            <text x="20" y="186" class="t-kicker">分级红线 · 涉钱问题转人决策</text>
+            <rect x="20" y="200" width="290" height="70" rx="6" class="bx-teal"></rect>
+            <text x="165" y="226" text-anchor="middle" class="t-title-teal">高频技术问答（wiki / 说明书）</text>
+            <text x="165" y="248" text-anchor="middle" class="t-sub">放心交给 AI 直接回答</text>
+            <rect x="335" y="200" width="290" height="70" rx="6" class="bx"></rect>
+            <text x="480" y="226" text-anchor="middle" class="t-title">疑难杂症 / 边界 case</text>
+            <text x="480" y="248" text-anchor="middle" class="t-sub">查知识库出建议，处理不了转人工</text>
+            <rect x="650" y="200" width="290" height="70" rx="6" class="bx-red"></rect>
+            <text x="795" y="226" text-anchor="middle" class="t-title-red">钱 / 退款 / 优惠 / 客诉</text>
+            <text x="795" y="248" text-anchor="middle" class="t-sub">规则层分级 → 转人类决策</text>
+
+            <text x="20" y="312" class="t-kicker">开发路径 · 四步复盘</text>
+            <rect x="20" y="326" width="205" height="56" rx="6" class="bx-paper"></rect>
+            <text x="122" y="350" text-anchor="middle" class="t-title">① MVP 起手</text>
+            <text x="122" y="370" text-anchor="middle" class="t-sub">首版只做简单问答（约 30 分钟）</text>
+            <line x1="225" y1="354" x2="258" y2="354" class="ln" marker-end="url(#ar1)"></line>
+            <rect x="260" y="326" width="205" height="56" rx="6" class="bx-paper"></rect>
+            <text x="362" y="350" text-anchor="middle" class="t-title">② 喂内部文档</text>
+            <text x="362" y="370" text-anchor="middle" class="t-sub">说明书 / 飞书文档直接丢给 AI</text>
+            <line x1="465" y1="354" x2="498" y2="354" class="ln" marker-end="url(#ar1)"></line>
+            <rect x="500" y="326" width="205" height="56" rx="6" class="bx-paper"></rect>
+            <text x="602" y="350" text-anchor="middle" class="t-title">③ 渐进加场景</text>
+            <text x="602" y="370" text-anchor="middle" class="t-sub">图片上传入口等，AI 会主动引导</text>
+            <line x1="705" y1="354" x2="738" y2="354" class="ln" marker-end="url(#ar1)"></line>
+            <rect x="740" y="326" width="200" height="56" rx="6" class="bx-paper"></rect>
+            <text x="840" y="350" text-anchor="middle" class="t-title">④ 接自有系统</text>
+            <text x="840" y="370" text-anchor="middle" class="t-sub">computer use · 财务数据不给 AI</text>
+          </svg>
+        </div>
+        <div class="arch-note"><strong>方法论要点：</strong>先把客服 SOP 拆清（确认产品 → 查说明书 / 订单 → 按 case 规则处理 → 对接），再上 AI；「客户提问 → 确认产品 → 要更多信息（型号 / 订单）」是最小闭环。工具不设限：Claude Code / Codex / GLM / Kimi「用自己顺手的产品就好」。</div>
+      </div>
+
+      <!-- 图 2 · 赛道一 智能录音 -->
+      <div class="arch-card">
+        <div class="arch-head">
+          <span class="t">赛道一 · 智能录音：硬件音频入口 + 云端模型组合</span>
+          <span class="src">Ricky · 20:35 – 20:42 · Soundcore 录音豆</span>
+        </div>
+        <div class="arch-svg">
+          <svg viewBox="0 0 960 268" role="img" aria-label="智能录音赛道架构图">
+            <defs>
+              <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#B5451D"></path>
+              </marker>
+            </defs>
+            <rect x="20" y="30" width="210" height="110" rx="6" class="bx-teal"></rect>
+            <text x="125" y="58" text-anchor="middle" class="t-title-teal">录音豆（硬件 + SDK）</text>
+            <text x="125" y="80" text-anchor="middle" class="t-sub">初始化 / 连接 / 设备状态</text>
+            <text x="125" y="98" text-anchor="middle" class="t-sub">录音控制 · 边录边传</text>
+            <text x="125" y="116" text-anchor="middle" class="t-sub">文件管理 · 长录音回传</text>
+            <text x="125" y="134" text-anchor="middle" class="t-sub">双击机身交互 · 脏活全包</text>
+            <line x1="230" y1="85" x2="262" y2="85" class="ln" marker-end="url(#ar2)"></line>
+            <rect x="264" y="30" width="170" height="110" rx="6" class="bx"></rect>
+            <text x="349" y="68" text-anchor="middle" class="t-title">选手 APP</text>
+            <text x="349" y="90" text-anchor="middle" class="t-sub">蓝牙扫描连接</text>
+            <text x="349" y="108" text-anchor="middle" class="t-sub">采集音频</text>
+            <text x="349" y="126" text-anchor="middle" class="t-sub">（集成接入文档）</text>
+            <line x1="434" y1="85" x2="466" y2="85" class="ln" marker-end="url(#ar2)"></line>
+            <rect x="468" y="30" width="130" height="110" rx="6" class="bx"></rect>
+            <text x="533" y="68" text-anchor="middle" class="t-title">后台上传</text>
+            <text x="533" y="90" text-anchor="middle" class="t-sub">音频上传</text>
+            <text x="533" y="108" text-anchor="middle" class="t-sub">云端通道</text>
+            <line x1="598" y1="85" x2="630" y2="85" class="ln" marker-end="url(#ar2)"></line>
+            <rect x="632" y="30" width="140" height="110" rx="6" class="bx"></rect>
+            <text x="702" y="68" text-anchor="middle" class="t-title">统一 AI 网关</text>
+            <text x="702" y="90" text-anchor="middle" class="t-sub">调用云端</text>
+            <text x="702" y="108" text-anchor="middle" class="t-sub">AI 能力</text>
+            <line x1="772" y1="85" x2="804" y2="85" class="ln" marker-end="url(#ar2)"></line>
+            <rect x="806" y="30" width="134" height="110" rx="6" class="bx-teal"></rect>
+            <text x="873" y="58" text-anchor="middle" class="t-title-teal">云端能力组合</text>
+            <text x="873" y="80" text-anchor="middle" class="t-sub">ASR / LLM / TTS</text>
+            <text x="873" y="98" text-anchor="middle" class="t-sub">文生图 / 图生文</text>
+            <text x="873" y="120" text-anchor="middle" class="t-sub">按产品设计自选组合</text>
+            <path d="M 873 140 L 873 178" class="ln" marker-end="url(#ar2)"></path>
+            <rect x="20" y="180" width="920" height="52" rx="6" class="bx-paper"></rect>
+            <text x="480" y="202" text-anchor="middle" class="t-title">产品输出 —— 示例 Demo「童言童话」：家长对录音豆说一句话 → 大模型生成童话故事 → 文生图产出绘本配图 → 孩子得到定制绘本</text>
+            <text x="480" y="222" text-anchor="middle" class="t-sub">基础能力锚点：录音 → 带时间轴文字稿；其余应用场合自行构思（长录音变纪要、狼人杀发言复盘、白板多模态融合等）</text>
+          </svg>
+        </div>
+        <div class="arch-note"><strong>门槛口径：</strong>「5 分钟就可以把设备流程跑通」——硬件接入门槛已被 SDK 打平，参赛瓶颈在场景创意。规则：API key 不外传，SDK 按规定使用，禁止破解与违规录音。</div>
+      </div>
+
+      <!-- 图 3 · 赛道二 智能安防 -->
+      <div class="arch-card">
+        <div class="arch-head">
+          <span class="t">赛道二 · 智能安防：「看见，然后做到」</span>
+          <span class="src">Terry &amp; Max · 20:43 – 21:03 · 24 小时内用三端任一 SDK + AI 落地完整方案</span>
+        </div>
+        <div class="arch-svg">
+          <svg viewBox="0 0 960 316" role="img" aria-label="智能安防赛道架构图">
+            <defs>
+              <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#B5451D"></path>
+              </marker>
+            </defs>
+            <text x="20" y="24" class="t-kicker">看见 · 官方负责</text>
+            <rect x="20" y="38" width="200" height="82" rx="6" class="bx"></rect>
+            <text x="120" y="64" text-anchor="middle" class="t-title">E30 Solo 云台摄像机</text>
+            <text x="120" y="86" text-anchor="middle" class="t-sub">左右上下转动 · 带电池</text>
+            <text x="120" y="104" text-anchor="middle" class="t-sub">可太阳能充电</text>
+            <rect x="20" y="136" width="200" height="82" rx="6" class="bx"></rect>
+            <text x="120" y="162" text-anchor="middle" class="t-title">双摄电池门铃</text>
+            <text x="120" y="184" text-anchor="middle" class="t-sub">WiFi 直连 · 广角监测全景</text>
+            <text x="120" y="202" text-anchor="middle" class="t-sub">第二颗专盯门口地面包裹</text>
+            <line x1="220" y1="79" x2="258" y2="105" class="ln" marker-end="url(#ar3)"></line>
+            <line x1="220" y1="177" x2="258" y2="151" class="ln" marker-end="url(#ar3)"></line>
+            <rect x="260" y="106" width="170" height="88" rx="6" class="bx-teal"></rect>
+            <text x="345" y="136" text-anchor="middle" class="t-title-teal">官方 SDK 取流</text>
+            <text x="345" y="158" text-anchor="middle" class="t-sub">Android / iOS（KMP）</text>
+            <text x="345" y="176" text-anchor="middle" class="t-sub">Web SDK · 空白工程</text>
+            <text x="345" y="194" text-anchor="middle" class="t-sub">设备现场领取 · 预绑定账号</text>
+            <line x1="430" y1="150" x2="466" y2="150" class="ln" marker-end="url(#ar3)"></line>
+            <text x="470" y="24" class="t-kicker">做到 · 选手发挥</text>
+            <rect x="470" y="38" width="250" height="180" rx="6" class="bx-dash"></rect>
+            <text x="595" y="62" text-anchor="middle" class="t-title">AI 分析流水线</text>
+            <text x="595" y="90" text-anchor="middle" class="t-sub">问题录入（打字 / 语音）→ 意图识别</text>
+            <text x="595" y="112" text-anchor="middle" class="t-sub">→ 按意图提取范围数据 → 必要校验</text>
+            <text x="595" y="134" text-anchor="middle" class="t-sub">→ 图片 / 视频理解 → 时间段汇总分析</text>
+            <text x="595" y="164" text-anchor="middle" class="t-sub">日报：定时任务拉取视频 / 图片 / 语音</text>
+            <text x="595" y="186" text-anchor="middle" class="t-sub">→ 识别分析 → 生成日报（结论须有</text>
+            <text x="595" y="206" text-anchor="middle" class="t-sub">事实依据支撑）</text>
+            <line x1="720" y1="150" x2="756" y2="150" class="ln" marker-end="url(#ar3)"></line>
+            <rect x="758" y="38" width="182" height="56" rx="6" class="bx"></rect>
+            <text x="849" y="62" text-anchor="middle" class="t-title">一句话结论</text>
+            <text x="849" y="82" text-anchor="middle" class="t-sub">事件数据 → AI 分析</text>
+            <rect x="758" y="100" width="182" height="56" rx="6" class="bx"></rect>
+            <text x="849" y="124" text-anchor="middle" class="t-title">自动安全日报</text>
+            <text x="849" y="144" text-anchor="middle" class="t-sub">关键数据与事件支撑结论</text>
+            <rect x="758" y="162" width="182" height="56" rx="6" class="bx"></rect>
+            <text x="849" y="186" text-anchor="middle" class="t-title">语音播报反馈</text>
+            <text x="849" y="206" text-anchor="middle" class="t-sub">汇总结果播报给用户</text>
+            <rect x="20" y="240" width="920" height="56" rx="6" class="bx-paper"></rect>
+            <text x="480" y="262" text-anchor="middle" class="t-title">Web SDK 最短路径（Max 演示）：表单录入 SN / UserID / AccountID → 浏览器与相机 web 连接 → 现成出流组件（免调 API）</text>
+            <text x="480" y="284" text-anchor="middle" class="t-sub">→ 抓 N 帧转 blob → 统一调一次接口问大模型「过去 N 帧发生了什么」→ 返回文字结论（模型官方提供或自备均可，密钥不得泄露）</text>
+          </svg>
+        </div>
+        <div class="arch-note"><strong>工程口径：</strong>KMP 跨端方案，demo app 层已解耦——只有单端经验也能在空白工程直接编码；iOS 用 Xcode 打开 workspace 即编译。赛前建议先把示例工程与空白工程跑起来；需要 2–3 台设备等需求，入围后赛前向赛事组协调。</div>
+      </div>
+
+      <!-- 图 4 · 赛道三 充电储能 -->
+      <div class="arch-card">
+        <div class="arch-head">
+          <span class="t">赛道三 · 充电储能：云端模拟器 + HA 接口 + 算法赛</span>
+          <span class="src">安迪 · 21:04 – 21:20 · 无真机环境，模拟器即「三台真机」</span>
+        </div>
+        <div class="arch-svg">
+          <svg viewBox="0 0 960 368" role="img" aria-label="充电储能赛道架构图">
+            <defs>
+              <marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#B5451D"></path>
+              </marker>
+            </defs>
+            <rect x="20" y="28" width="280" height="150" rx="6" class="bx-teal"></rect>
+            <text x="160" y="54" text-anchor="middle" class="t-title-teal">云端环境机（EC2）</text>
+            <text x="160" y="80" text-anchor="middle" class="t-sub">模拟 3 台独立储能设备（= 3 个真实站点）</text>
+            <text x="160" y="102" text-anchor="middle" class="t-sub">光伏发电 / 家庭用电 / 电池实时数据</text>
+            <text x="160" y="124" text-anchor="middle" class="t-sub">分时电价（买卖价差）· 今天明天天气</text>
+            <text x="160" y="146" text-anchor="middle" class="t-sub">看板：打分 · 排名 · 能量流图 · 数据集下载</text>
+            <text x="160" y="168" text-anchor="middle" class="t-sub">电池可单独接受充放电指令</text>
+            <path d="M 300 103 L 348 103" class="ln" marker-end="url(#ar4)"></path>
+            <path d="M 348 123 L 300 123" class="ln" marker-end="url(#ar4)"></path>
+            <rect x="350" y="56" width="230" height="100" rx="6" class="bx"></rect>
+            <text x="465" y="84" text-anchor="middle" class="t-title">Home Assistant</text>
+            <text x="465" y="106" text-anchor="middle" class="t-sub">开源家庭能源系统 + 官方 HA 插件</text>
+            <text x="465" y="128" text-anchor="middle" class="t-sub">（插件 GitHub 开源，可学习源码）</text>
+            <text x="465" y="148" text-anchor="middle" class="t-sub">标准接口控制充放电 · 开箱即用</text>
+            <line x1="580" y1="106" x2="616" y2="106" class="ln" marker-end="url(#ar4)"></line>
+            <rect x="618" y="36" width="322" height="92" rx="6" class="bx-teal"></rect>
+            <text x="779" y="62" text-anchor="middle" class="t-title-teal">选手调度程序（任意语言）</text>
+            <text x="779" y="84" text-anchor="middle" class="t-sub">传统规则 / 机器学习 / 深度学习 / 强化学习</text>
+            <text x="779" y="104" text-anchor="middle" class="t-sub">本赛道最大特色：算法不设限</text>
+            <text x="779" y="122" text-anchor="middle" class="t-sub">基于数据集持续训练调优（自备电脑，不提供 GPU）</text>
+            <path d="M 779 128 L 779 164" class="ln" marker-end="url(#ar4)"></path>
+            <rect x="618" y="166" width="322" height="66" rx="6" class="bx"></rect>
+            <text x="779" y="190" text-anchor="middle" class="t-title">参赛机（AWS 云端主机）</text>
+            <text x="779" y="212" text-anchor="middle" class="t-sub">长时运行 · 7 天仿真 × 180 倍加速 ≈ 56 分钟内稳定运行</text>
+            <path d="M 160 178 L 160 208" class="ln-soft" marker-end="url(#ar4)"></path>
+            <rect x="20" y="210" width="280" height="94" rx="6" class="bx-paper"></rect>
+            <text x="160" y="234" text-anchor="middle" class="t-title">训练数据集</text>
+            <text x="160" y="256" text-anchor="middle" class="t-sub">100 站点 × 90 天 · 小时级</text>
+            <text x="160" y="274" text-anchor="middle" class="t-sub">光伏 / 负载 / 辐照 / 天气 / 电价</text>
+            <text x="160" y="292" text-anchor="middle" class="t-sub">看板提供下载通道，分训练 / 验证集调优</text>
+            <text x="20" y="318" class="t-kicker">评比口径</text>
+            <rect x="20" y="330" width="280" height="38" rx="6" class="bx-paper"></rect>
+            <text x="160" y="346" text-anchor="middle" class="t-title">量化：三站点平均节省比例</text>
+            <text x="160" y="362" text-anchor="middle" class="t-sub">基线 = 自发自用（什么都不做）</text>
+            <rect x="322" y="330" width="300" height="38" rx="6" class="bx-paper"></rect>
+            <text x="472" y="346" text-anchor="middle" class="t-title">证据链：讲清算法逻辑与适用场景</text>
+            <text x="472" y="362" text-anchor="middle" class="t-sub">以及约束条件 · 模拟赛反复跑、正式赛只跑一次</text>
+            <rect x="644" y="330" width="296" height="38" rx="6" class="bx-paper"></rect>
+            <text x="792" y="346" text-anchor="middle" class="t-title">加分项：漂亮看板 / 报表</text>
+            <text x="792" y="362" text-anchor="middle" class="t-sub">大模型解释 AI 调度结果（可解释性）</text>
+          </svg>
+        </div>
+        <div class="arch-note"><strong>赛制要点：</strong>正式比赛只运行一次，遇突发联系组委会；复位功能正式比赛禁用；流程为「发环境 → 改初始密码 → 上传程序 → 参赛机运行」，详细 SOP 参赛时发放。</div>
+      </div>
+
+      <!-- 图 5 · 赛道四 智能服务 -->
+      <div class="arch-card">
+        <div class="arch-head">
+          <span class="t">赛道四 · 智能服务：业务资产 → Agent 编排 → 边界设计</span>
+          <span class="src">茱莉亚 · 21:21 – 21:28 · 承接罗磊客服 Demo 的业务侧资源</span>
+        </div>
+        <div class="arch-svg">
+          <svg viewBox="0 0 960 330" role="img" aria-label="智能服务赛道架构图">
+            <defs>
+              <marker id="ar5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#B5451D"></path>
+              </marker>
+            </defs>
+            <text x="20" y="24" class="t-kicker">五份业务资源（官方提供）</text>
+            <rect x="20" y="36" width="310" height="40" rx="6" class="bx"></rect>
+            <text x="175" y="53" text-anchor="middle" class="t-title" font-size="13">① 售后流程图 · 多意图通用处理流程</text>
+            <text x="175" y="69" text-anchor="middle" class="t-sub">设计 agent 编排 · 服务边界 · 转人工节点</text>
+            <rect x="20" y="84" width="310" height="40" rx="6" class="bx"></rect>
+            <text x="175" y="101" text-anchor="middle" class="t-title" font-size="13">② 脱敏订单 Excel · 订单号 / SKU / 金额</text>
+            <text x="175" y="117" text-anchor="middle" class="t-sub">购买日期 / 质保到期 / 物流状态等字段</text>
+            <rect x="20" y="132" width="310" height="40" rx="6" class="bx"></rect>
+            <text x="175" y="149" text-anchor="middle" class="t-title" font-size="13">③ 授权经销商服务清单（可检索）</text>
+            <text x="175" y="165" text-anchor="middle" class="t-sub">线下无订单号场景，判定是否提供质保</text>
+            <rect x="20" y="180" width="310" height="40" rx="6" class="bx-teal"></rect>
+            <text x="175" y="197" text-anchor="middle" class="t-title-teal" font-size="13">④ 真实客诉材料 · 官方评测集</text>
+            <text x="175" y="213" text-anchor="middle" class="t-sub">原始邮件 + 图片 / 视频附件 · 验证 agent 质量</text>
+            <rect x="20" y="228" width="310" height="40" rx="6" class="bx"></rect>
+            <text x="175" y="245" text-anchor="middle" class="t-title" font-size="13">⑤ 产品知识库 · 型号库 / Q&amp;A / 排查方案</text>
+            <text x="175" y="261" text-anchor="middle" class="t-sub">每个型号的问答与故障排查方案</text>
+            <path d="M 330 56 L 368 110" class="ln" marker-end="url(#ar5)"></path>
+            <path d="M 330 104 L 368 120" class="ln" marker-end="url(#ar5)"></path>
+            <path d="M 330 152 L 368 130" class="ln" marker-end="url(#ar5)"></path>
+            <path d="M 330 200 L 368 140" class="ln" marker-end="url(#ar5)"></path>
+            <path d="M 330 248 L 368 150" class="ln" marker-end="url(#ar5)"></path>
+            <rect x="370" y="82" width="250" height="130" rx="6" class="bx-teal"></rect>
+            <text x="495" y="110" text-anchor="middle" class="t-title-teal">AI Agent 流程编排</text>
+            <text x="495" y="134" text-anchor="middle" class="t-sub">阿里云百炼（配小白友好 SOP 文档）</text>
+            <text x="495" y="156" text-anchor="middle" class="t-sub">或自选平台，不强制</text>
+            <text x="495" y="178" text-anchor="middle" class="t-sub">调工具 / 知识库的位置按流程图设计</text>
+            <text x="495" y="200" text-anchor="middle" class="t-sub">真实客诉材料用于验证处理质量</text>
+            <line x1="620" y1="147" x2="656" y2="147" class="ln" marker-end="url(#ar5)"></line>
+            <rect x="658" y="36" width="282" height="90" rx="6" class="bx"></rect>
+            <text x="799" y="62" text-anchor="middle" class="t-title">服务边界设计</text>
+            <text x="799" y="84" text-anchor="middle" class="t-sub">按流程图界定服务边界</text>
+            <text x="799" y="104" text-anchor="middle" class="t-sub">判断转人工节点 · 决定调工具 / 知识库</text>
+            <rect x="658" y="150" width="282" height="120" rx="6" class="bx-red"></rect>
+            <text x="799" y="176" text-anchor="middle" class="t-title-red">换货 / 退款单环节（关键边界）</text>
+            <text x="799" y="198" text-anchor="middle" class="t-sub">不开放内部真实 / 测试系统接口，三种替代：</text>
+            <text x="799" y="218" text-anchor="middle" class="t-sub">① 自建工具传建单信息 + 内设转人工节点</text>
+            <text x="799" y="238" text-anchor="middle" class="t-sub">② 该节点直接转人工 ③ 接自有模拟系统 API</text>
+          </svg>
+        </div>
+        <div class="arch-note"><strong>定位口径：</strong>官方提供流程图、数据与评测材料，选手负责 agent 编排与边界设计——「评测集当验收」的教科书式落地。</div>
+      </div>
+    </section>
+
+    <!-- ==================== 伍 · 待办清单 ==================== -->
+    <section class="chapter" id="todo">
+      <div class="ch-head">
+        <div class="ch-seal">伍</div>
+        <div>
+          <div class="ch-title">待办清单</div>
+          <div class="ch-en">ACTION ITEMS · 按归属分组</div>
+        </div>
+      </div>
+      <p class="ch-lede">按行动归属分为四组；截止时间以直播口径为准，最终以官网与官方通知为准。</p>
+
+      <div class="todo-group">
+        <div class="todo-group-head"><span class="who">A · 意向参赛者</span><span class="cnt">4 项</span></div>
+        <div class="todo-list">
+          <div class="todo"><span class="box"></span><div class="txt">完成黑客松报名<span class="why">官网 v2eji.com 首页第二个 banner「24 小时来点真的」点击报名；亦可从选手中心进入</span></div><span class="due hot">9-27 截止</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">加入官方飞书赛事群<span class="why">群二维码见视频号「通往 AGI 之路」右下角；组队招募、讲解材料与后续资源包均经群发放</span></div><span class="due cool">尽快</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">观看回放并研读赛道材料<span class="why">回放与全部 demo 展示资料统一上传至选手中心工作台；上期直播回放亦在其中</span></div><span class="due gray">回放生成后</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">初步选定意向赛道，围绕真实场景定义选题<span class="why">「从自己最高频的日常问题出发」——选题明确是预赛五要点之首</span></div><span class="due gray">持续</span></div>
+        </div>
+      </div>
+
+      <div class="todo-group">
+        <div class="todo-group-head"><span class="who">B · 已组队参赛者</span><span class="cnt">3 项</span></div>
+        <div class="todo-list">
+          <div class="todo"><span class="box"></span><div class="txt">核对全员报名状态<span class="why">提交预赛材料时系统强校验，任一组员未报名将无法提交</span></div><span class="due hot">提交前必须完成</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">按「预赛差异化五要点」打磨预赛材料<span class="why">选题明确 / 方案清晰（做什么·怎么做·为什么）/ AI native / 落地性（含迭代规划）/ 团队能力匹配</span></div><span class="due hot">9-27 前提交</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">在预赛文档「自由展示区」附上 demo、演示视频等佐证<span class="why">创意不浮于纸面，帮助评委更完整了解项目</span></div><span class="due gray">随材料提交</span></div>
+        </div>
+      </div>
+
+      <div class="todo-group">
+        <div class="todo-group-head"><span class="who">C · 预期入围决赛的参赛者（赛前准备）</span><span class="cnt">3 项</span></div>
+        <div class="todo-list">
+          <div class="todo"><span class="box"></span><div class="txt">提前跑通示例工程与空白工程，搭建编译环境<span class="why">自备开发电脑与手机；电脑性能要求不高，软件环境提前准备；SDK 材料包直播后统一下发</span></div><span class="due cool">软件包下发后 · 赛前</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">需要 2–3 台设备等特殊资源，入围后赛前向赛事组提出<span class="why">「提前暴露风险、提前反馈需求」——赛中再提解决起来麻烦</span></div><span class="due cool">入围后 · 赛前</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">关注赛前 key / SOP 下发与试用窗口，及时反馈资源缺口<span class="why">资源提前几天开放试用；模型能力不够可自备或提前向赛事组提需求</span></div><span class="due cool">赛前</span></div>
+        </div>
+      </div>
+
+      <div class="todo-group">
+        <div class="todo-group-head"><span class="who">D · 赛事方（安克 ×「通往 AGI 之路」）</span><span class="cnt">5 项</span></div>
+        <div class="todo-list">
+          <div class="todo"><span class="box"></span><div class="txt">9-30 公布预赛晋级名单<span class="why">30 组晋级 10-16/17 深圳线下决赛</span></div><span class="due hot">9-30</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">赛前统一下发模型 key、账号与使用 SOP，并提前几天开放试用</div><span class="due gray">赛前</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">直播结束后统一发放 SDK 材料包与文档<span class="why">含压缩包与 Markdown 开发指南（可直接给 AI 开发），以赛事中心官方通知为准</span></div><span class="due gray">直播后</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">补发罗磊 demo 线上 slide 链接至赛事群<span class="why">字幕中未给出链接，待与妙记 / 聊天记录核对后补发</span></div><span class="due gray">待补发</span></div>
+          <div class="todo"><span class="box"></span><div class="txt">现场保障：设备预绑定、独立账号发放、可访问公网 WiFi、安克技术与 AWS 全天驻场</div><span class="due gray">决赛现场</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 陆 · 发言金句 ==================== -->
+    <section class="chapter" id="quotes">
+      <div class="ch-head">
+        <div class="ch-seal">陆</div>
+        <div>
+          <div class="ch-title">发言金句</div>
+          <div class="ch-en">KEY QUOTES · 出处已核实</div>
+        </div>
+      </div>
+      <p class="ch-lede">以下金句逐字摘自会议字幕（仅作标点顺读，省略处以「……」标示），时间戳可回放定位；发言人归属按内容语义核实，非字幕标签。</p>
+
+      <div class="quote-grid">
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">开始做这个应用之前，大家首先要抱着一个心态——不要想着说一句话就能够把这个东西做得很完善。<mark>我们做任何 AI 产品，一开始都是抱着做 MVP 的概念。</mark></div>
+          <div class="quote-foot"><div><span class="quote-who">罗磊</span> <span class="quote-role">独立开发者</span></div><span class="quote-ts">20:20:32 – 20:20:44</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">涉及到一些钱啊，退款优惠啊，或者说投诉啊这种问题……<mark>通过很清晰的规则，让他分派到我们人类来决策。</mark>大部分用户场景都很类似，需要人介入的其实很少，可能只剩下百分之十、二十了。</div>
+          <div class="quote-foot"><div><span class="quote-who">罗磊</span> <span class="quote-role">独立开发者 · 客服红线原则</span></div><span class="quote-ts">20:26:09 – 20:26:36</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">你跟你的客户，或者说你对接的群体，<mark>最日常、最高频的一个问题是什么？</mark>先回想自己的高频问题、高频需求，尝试用 AI 做一个自己的 AI 小助手。</div>
+          <div class="quote-foot"><div><span class="quote-who">罗磊</span> <span class="quote-role">独立开发者 · 给参赛者的选题建议</span></div><span class="quote-ts">20:27:10 – 20:28:05</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">我们希望大家把赛事作品部署到云端，<mark>提供一个二维码或者一个可点击的链接</mark>，能让评委老师快速了解、看到你的作品。</div>
+          <div class="quote-foot"><div><span class="quote-who">Star</span> <span class="quote-role">安克 IT / 研发总监</span></div><span class="quote-ts">20:32:17 – 20:32:30</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q"><mark>我们的命题其实叫做「看见，然后做到」。</mark>我们提供的摄像头、提供的 SDK，是负责「看见」这个环节——后面就靠大家识别生活中的痛点场景，做到想要的解决方案。</div>
+          <div class="quote-foot"><div><span class="quote-who">Terry</span> <span class="quote-role">安克 eufy 高级 APP 开发工程师</span></div><span class="quote-ts">20:44:07 – 20:44:28</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">我们希望大家做自己的 demo 演示时，<mark>可以有这些事实依据来支撑你的结论</mark>——要不然我们不太清楚这个过程是怎么一步步实现的，这就是我们所说的「成功路径」。</div>
+          <div class="quote-foot"><div><span class="quote-who">Terry</span> <span class="quote-role">安克 eufy 高级 APP 开发工程师</span></div><span class="quote-ts">20:59:44 – 21:00:08</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">提前把风险暴露出来，把需求反馈出来。<mark>比赛中再发现这些问题，解决起来会比较麻烦。</mark></div>
+          <div class="quote-foot"><div><span class="quote-who">Terry</span> <span class="quote-role">安克 eufy 高级 APP 开发工程师</span></div><span class="quote-ts">20:56:04 – 20:56:15</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">在这个过程中，<mark>你的程序是不要随意崩溃的</mark>——崩溃了就不能及时控制电池充放电，也许就会错过最佳收益。</div>
+          <div class="quote-foot"><div><span class="quote-who">安迪</span> <span class="quote-role">安克充电储能应用软件负责人</span></div><span class="quote-ts">21:16:11 – 21:16:24</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">我们最终的评比不只是看总分结算——<mark>要能讲清楚自己算法的逻辑、适用场景，以及有哪些约束</mark>，我们再根据结果做综合评定。</div>
+          <div class="quote-foot"><div><span class="quote-who">安迪</span> <span class="quote-role">安克充电储能应用软件负责人</span></div><span class="quote-ts">21:18:32 – 21:18:53</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q"><mark>只有把问题定义好，这个赛道才会更加完善。</mark>真正有创意、有竞争力的，绝不会是浮于纸面的概念——希望大家把 AI 用在最关键、最不可替代的地方。</div>
+          <div class="quote-foot"><div><span class="quote-who">莹莹</span> <span class="quote-role">赛事方 · 预赛材料五要点</span></div><span class="quote-ts">21:35:06 – 21:35:53</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">AI 时代不设边界，我们不看团队里有什么前端、后端——<mark>更看重的是能不能形成有效配合，利用 AI 把事情真正解决好。</mark></div>
+          <div class="quote-foot"><div><span class="quote-who">莹莹</span> <span class="quote-role">赛事方 · 团队能力匹配</span></div><span class="quote-ts">21:36:37 – 21:37:01</span></div>
+        </div>
+        <div class="quote">
+          <div class="mark">“</div>
+          <div class="q">这个 demo 就是我们抛砖引玉——大家可以用这个能力拓展出什么更有创造力的场景，<mark>就期待大家接下来的发挥。</mark></div>
+          <div class="quote-foot"><div><span class="quote-who">Max</span> <span class="quote-role">安克 Web SDK 工程师</span></div><span class="quote-ts">21:02:20 – 21:02:32</span></div>
+        </div>
+      </div>
+
+      <p class="quote-note">补充一条轻松注脚——主持人展示录音豆时说：「它日常把我的信息全部记录下来，<strong>现在已经成了我的人生上下文了，它可能比我更懂我自己</strong>」（20:42:34 – 20:42:51）。</p>
+    </section>
+
+    <!-- ==================== 柒 · 需求与决策挖掘 ==================== -->
+    <section class="chapter" id="mining">
+      <div class="ch-head">
+        <div class="ch-seal">柒</div>
+        <div>
+          <div class="ch-title">需求与决策挖掘</div>
+          <div class="ch-en">NEEDS &amp; DECISIONS MINING</div>
+        </div>
+      </div>
+      <p class="ch-lede">依据逐轮增量分析整理：左栏为会议<strong>明确给出的口径与决策</strong>（可直接执行），右栏为从讲解中<strong>挖掘出的需求与洞察</strong>（对参赛打法有直接指导意义）。</p>
+
+      <div class="mine-cols">
+        <div class="mine-col decision">
+          <h3>会议明确的口径与决策</h3>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D1</span><span class="mt">交付形态：云端部署 + 可点击链接</span></div>
+            <div class="md">每队一个 AWS 账号（虚拟机 / 数据库 / 存储 / 函数），作品部署云端，提供二维码或可点击链接供评委访问。</div>
+            <div class="msrc">Star · 20:32</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D2</span><span class="mt">人机分工红线：涉钱问题分级转人</span></div>
+            <div class="md">钱、退款、优惠、客诉类问题在规则层 / 提示词层分级，转由人决策；高频技术问答放心交 AI。约七八成场景 AI 可处理，需人介入的仅一两成。</div>
+            <div class="msrc">罗磊 · 20:25 – 20:26</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D3</span><span class="mt">参赛开发节奏：MVP → 喂文档 → 加场景 → 接系统</span></div>
+            <div class="md">首版只做简单问答（30 分钟量级跑通）→ 内部文档直接丢给 AI → 渐进加场景（如图片上传）→ computer use 接自有系统；财务类数据不给 AI。</div>
+            <div class="msrc">罗磊 · 20:20 – 20:24</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D4</span><span class="mt">资源非强制，工具自选</span></div>
+            <div class="md">大模型、云资源、研发平台仅为效率支持；有自己习惯的工具全部可用，无强制要求。</div>
+            <div class="msrc">Star · 20:30 / 茱莉亚 · 21:26</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D5</span><span class="mt">预赛评审五要点（评分标准间接披露）</span></div>
+            <div class="md">选题明确 / 方案清晰度（做什么·怎么做·为什么）/ AI native（用在最不可替代处）/ 落地性（24 小时可完成 + 迭代规划）/ 团队能力匹配——可作预赛材料 checklist。</div>
+            <div class="msrc">莹莹 · 21:34 – 21:37</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D6</span><span class="mt">演示要求：结论须有事实依据支撑</span></div>
+            <div class="md">官方 demo 刻意粗糙，但要求选手演示时拿事实依据支撑结论，「成功路径要一步步讲清怎么实现」。</div>
+            <div class="msrc">Terry · 20:59 – 21:00</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D7</span><span class="mt">储能赛制：模拟赛反复跑，正式赛只跑一次</span></div>
+            <div class="md">7 天仿真 × 180 倍加速 ≈ 56 分钟内程序须稳定运行；打分 = 三站点平均节省比例（基线：自发自用），能量流图 / 可解释性为加分项。</div>
+            <div class="msrc">安迪 · 21:08 – 21:19</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D8</span><span class="mt">安全合规：key 不外传，SDK 按规使用</span></div>
+            <div class="md">API key 与密钥信息不得分享泄露；SDK 按官方方式使用，禁止破解、违规录音；demo 现场完成全流程开发。</div>
+            <div class="msrc">Ricky · 20:41 / Max · 21:01</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D9</span><span class="mt">退款单边界：三种替代方案</span></div>
+            <div class="md">不开放内部真实 / 测试系统接口：①自建工具传建单信息 + 内设转人工节点 ②该节点直接转人工 ③接自有模拟系统 API。</div>
+            <div class="msrc">茱莉亚 · 21:26 – 21:27</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">D10</span><span class="mt">资源争取窗口在赛前</span></div>
+            <div class="md">多台设备等特殊需求入围后赛前协调；「提前暴露风险、提前反馈需求」，赛中再提解决麻烦。</div>
+            <div class="msrc">Terry · 20:55 – 20:56</div>
+          </div>
+        </div>
+
+        <div class="mine-col insight">
+          <h3>需求挖掘与洞察</h3>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N1</span><span class="mt">「零基建」参赛：比拼点收束到场景洞察 × AI 编排</span></div>
+            <div class="md">空白工程 + 调用示例 + 预绑定设备 + 现场 WiFi，接入门槛被官方打平——录音豆「5 分钟跑通」、安防空白工程开箱即编译，参赛瓶颈不在工程基建。</div>
+            <div class="msrc">Ricky · 20:41 / Terry · 20:48</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N2</span><span class="mt">AI-first 是官方默认工作流</span></div>
+            <div class="md">拿到 SDK 先丢给 AI 梳理一遍是否满足需求；开发指南（Markdown 文档）「直接给 AI 就可以直接开发」——官方默认参赛打法就是 AI-first 编码。</div>
+            <div class="msrc">Terry · 20:50 – 20:52</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N3</span><span class="mt">真实客诉材料 = 官方评测集</span></div>
+            <div class="md">赛道四提供真实用户售后邮件原文与附件，用于验证 agent 处理质量与效果——「评测集当验收」的直接落地。</div>
+            <div class="msrc">茱莉亚 · 21:24 – 21:25</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N4</span><span class="mt">数据驱动参赛被完整支持</span></div>
+            <div class="md">100 站点 × 90 天小时级数据集 + 模拟赛可反复验证 + 算法路线不限（规则 / ML / DL / RL）——储能赛道是四赛道中唯一给「算法创造空间」的赛道。</div>
+            <div class="msrc">安迪 · 21:07 / 21:17</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N5</span><span class="mt">可视化与可解释性成为加分维度</span></div>
+            <div class="md">能量流图 / 桑基图等漂亮看板、用大模型解释 AI 调度结果（「用户想知道电池为什么这样调度」）被明确列为加分项——评委有主观体验分空间。</div>
+            <div class="msrc">安迪 · 21:09 / 21:18</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N6</span><span class="mt">组队与信息需求集中化</span></div>
+            <div class="md">选手中心统一承接赛事信息、找队友、FAQ、回放与材料；招募大厅支持「开团」组队；预赛提交系统强校验全员报名——提交宜早不宜晚。</div>
+            <div class="msrc">莹莹 · 21:30 / 主持人 · 21:41</div>
+          </div>
+          <div class="mine-item">
+            <div class="mid"><span class="id">N7</span><span class="mt">「事件数据 → AI 分析 → 一句话结论」是通用范式</span></div>
+            <div class="md">安防 demo 的思路（大量设备事件看不懂 → 交给 AI → 输出一句话结论）可直接迁移到其他数据密集场景；Web 端「抓帧 → blob → 一次调用」是最低成本的视频理解接入方式。</div>
+            <div class="msrc">Terry · 20:45 / Max · 21:01</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 捌 · 待澄清问题 ==================== -->
+    <section class="chapter" id="clarify">
+      <div class="ch-head">
+        <div class="ch-seal">捌</div>
+        <div>
+          <div class="ch-title">待澄清问题</div>
+          <div class="ch-en">OPEN QUESTIONS</div>
+        </div>
+      </div>
+      <p class="ch-lede">会议结束后仍需官方确认或补发的事项，按处理状态归类；多数可在赛事群或选手中心跟进。</p>
+
+      <div class="clar-table">
+        <table class="clar">
+          <thead>
+            <tr><th>编号</th><th>问题</th><th>背景与建议动作</th><th>状态</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="qid">Q1</td>
+              <td class="qtext"><strong>罗磊 demo 线上 slide 链接缺失</strong></td>
+              <td>罗磊收尾提到 demo 是「一个线上的 slide」可供参考，但字幕中未给出链接；建议留意赛事群补发或妙记 / 聊天记录核对。</td>
+              <td><span class="qstatus resend">待补发</span></td>
+            </tr>
+            <tr>
+              <td class="qid">Q2</td>
+              <td class="qtext"><strong>「统一 AI 网关」与「模型 key」是否同一套资源</strong></td>
+              <td>Ricky 讲架构时提到统一 AI 网关，Star 讲的是每位选手的模型 key；两者大概率是同一套资源的不同表述，待官方确认。</td>
+              <td><span class="qstatus confirm">待官方确认</span></td>
+            </tr>
+            <tr>
+              <td class="qid">Q3</td>
+              <td class="qtext"><strong>录音豆硬件的发放方式未明说</strong></td>
+              <td>安防赛道已确认设备现场领取并预绑定账号；录音豆是否同样现场发放未明确，建议群内确认以便提前规划。</td>
+              <td><span class="qstatus confirm">待确认</span></td>
+            </tr>
+            <tr>
+              <td class="qid">Q4</td>
+              <td class="qtext"><strong>大模型清单转写字样存疑</strong></td>
+              <td>字幕中「Kimi K3」「3.8Max」等型号字样疑有转写误差，纪要不写死具体型号，<strong>以官方参赛指南下发的清单为准</strong>。</td>
+              <td><span class="qstatus noise">转写噪声</span></td>
+            </tr>
+            <tr>
+              <td class="qid">Q5</td>
+              <td class="qtext"><strong>「seedance」文生图模型名称待核对</strong></td>
+              <td>Ricky 提到提供了 seedance 的文生图模型；名称是否转写准确，待与官方资料核对，以参赛指南为准。</td>
+              <td><span class="qstatus noise">转写噪声</span></td>
+            </tr>
+            <tr>
+              <td class="qid">Q6</td>
+              <td class="qtext"><strong>报名截止口径与收尾口播不一致</strong></td>
+              <td>主持人收尾说「赛事时间是 9 月 7 号到 17 号」，与全场多次强调的「报名 9-27 截止、9-30 公布」不一致，疑为口播 / 转写误差，以官网为准。</td>
+              <td><span class="qstatus noise">转写噪声</span></td>
+            </tr>
+            <tr>
+              <td class="qid">Q7</td>
+              <td class="qtext"><strong>「自己内部知识库」转写误记</strong></td>
+              <td>字幕 20:19 出现「字节内部的相关知识库」，结合上下文（罗磊自营业务 demo）应为「自己内部知识库」，本纪要已按语义修正，列出备查。</td>
+              <td><span class="qstatus fixed">已修正</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==================== 页脚 ==================== -->
+  <footer class="colophon">
+    <div class="wrap">
+      <div class="colophon-grid">
+        <div>
+          <h4>文档说明</h4>
+          <p>本纪要为对外可分享的正式交付物，依据本场会议全程字幕（866 条）与逐轮增量分析整理；章节时间线、金句与决策均标注可回溯的时间戳，便于对照回放核实。</p>
+        </div>
+        <div>
+          <h4>口径与核实</h4>
+          <ul>
+            <li>字幕系统将全部说话人误归至会议创建人名下，本纪要按内容语义逐轮核实发言人归属。</li>
+            <li>转写噪声（模型型号、网址口播等）已按语义修正；存疑处见「待澄清问题」一节。</li>
+            <li>个别型号、链接与时间节点以官方参赛指南及赛事群通知为准。</li>
+          </ul>
+        </div>
+        <div>
+          <h4>相关入口</h4>
+          <ul>
+            <li>官网 v2eji.com · 首页第二个 banner「24 小时来点真的」</li>
+            <li>选手中心 · 赛事信息 / 找队友 / FAQ / 回放与材料</li>
+            <li>官方飞书赛事群 · 资源包与 key / SOP 下发通道</li>
+          </ul>
+        </div>
+      </div>
+      <div class="colophon-foot">
+        <span>「通往 AGI 之路」× 安克首届黑客松 · 赛题拆解直播 · 可视化会议纪要</span>
+        <span>2026-09-21 · 会议纪要整理：刘卿志</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
